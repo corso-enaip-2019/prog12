@@ -34,6 +34,7 @@ namespace FirstSolution
         /// Richiede e valida valore intero corrispondente a un lato del triangolo.
         /// Mostrando una stringa di messaggio di richiesta.
         /// </summary>
+        /// <params name="message">Message displayed to request the measure of the triangle side</params>
         static int GetValidatedValue(string message)
         {
             int valueOut;
@@ -44,11 +45,11 @@ namespace FirstSolution
             {
                 Console.Write(message);
                 valueIn = Console.ReadLine();
-                validated = int.TryParse(valueIn, out valueOut);
+                validated = int.TryParse(valueIn, out valueOut) && valueOut > 0;
 
                 if (!validated)
                 {
-                    Console.WriteLine("Please insert a positive integer!");
+                    Console.WriteLine("A triangle side must be a positive integer!");
                 }
             }
             while (!validated);
