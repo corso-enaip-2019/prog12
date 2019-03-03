@@ -1,0 +1,14 @@
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\bin\Debug\ShowEnvironment.exe.config
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\bin\Debug\ShowEnvironment.exe
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\bin\Debug\ShowEnvironment.pdb
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.csprojAssemblyReference.cache
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.csproj.CoreCompileInputs.cache
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.exe
+C:\Users\palmi\source\repos\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.pdb
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\bin\Debug\ShowEnvironment.exe.config
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\bin\Debug\ShowEnvironment.exe
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\bin\Debug\ShowEnvironment.pdb
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.csprojAssemblyReference.cache
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.csproj.CoreCompileInputs.cache
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.exe
+C:\Users\palmi\source\repos\prog12\ShowEnvironment\ShowEnvironment\obj\Debug\ShowEnvironment.pdb
