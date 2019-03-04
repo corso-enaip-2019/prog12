@@ -10,9 +10,9 @@ namespace FirstSolution
     {
         static void Main(string[] args)
         {
-            int a = GetValidatedValue("Insert side a: ");
-            int b = GetValidatedValue("Insert side b: ");
-            int c = GetValidatedValue("Insert side c: ");
+            int a = GetValidatedValue("Insert side a");
+            int b = GetValidatedValue("Insert side b");
+            int c = GetValidatedValue("Insert side c");
 
             if (a < b + c           &&
                 b < a + c           &&
@@ -40,10 +40,11 @@ namespace FirstSolution
             int valueOut;
             string valueIn;
             bool validated;
+            const string delimiter = ": ";
 
             do
             {
-                Console.Write(message);
+                Console.Write(message + delimiter);
                 valueIn = Console.ReadLine();
                 validated = int.TryParse(valueIn, out valueOut) && valueOut > 0;
 
