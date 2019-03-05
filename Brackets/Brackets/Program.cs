@@ -10,18 +10,29 @@ namespace Brackets
     {
         static void Main(string[] args)
         {
-            string text = "({([({})]())})";
+            string text = @"({(
+[({}
+)](
+))
+)";
+            int line;
+            int index;
 
-            if (CheckBrackets(text))
+            if (CheckBrackets(text, out index, out line))
             {
                 Console.WriteLine("Brackets Ok");
             }
             else
             {
-                Console.WriteLine("Brackets NOT Ok");
+                Console.WriteLine($"Brackets NOT Ok index: {index} line: {line}");
             }
 
             Console.ReadLine();
+        }
+
+        static bool IsNewline(char c)
+        {
+            return c == '\n';
         }
 
         /// <summary>
@@ -29,16 +40,22 @@ namespace Brackets
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        static bool CheckBrackets(string text)
+        static bool CheckBrackets(string text, out int index, out int line)
         {
             Stack<char> stack = new Stack<char>();
             char[] pOpen = {'(', '[', '{'};
             char[] pClose ={')', ']', '}'};
+            line = 0;
 
-            for (int index = 0; index < text.Length; index++)
+            for (index = 0; index < text.Length; index++)
             {
                 int closeIndex = 0;
                 char charAt = text[index];
+                
+                if (IsNewline(charAt))
+                {
+                    line++;
+                }
 
                 if (Array.IndexOf(pOpen, charAt) >= 0) {
 
@@ -66,10 +83,10 @@ namespace Brackets
             return stack.Count == 0;
         }
 
-        static char GetCorrespondingOpenBracket(char bracket)
-        {
+        //static char GetCorrespondingOpenBracket(char bracket)
+        //{
 
 
-        }
+        //}
     }
 }
