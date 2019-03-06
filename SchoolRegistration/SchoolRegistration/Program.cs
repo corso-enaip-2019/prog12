@@ -12,12 +12,13 @@ namespace SchoolRegistration
         const char INPUT_OPTION = '1';
         const char PRINT_ALL_OPTION = '2';
         const char PRINT_PART_OPTION = '3';
-        const char QUIT_OPTION  = '4';
+        const char SEARCH_STUDENT_CLASS = '4';
+        const char QUIT_OPTION  = '5';
 
         static void Main(string[] args)
         {
             char option;
-            List<string>[] registry = AllocateRegistry();
+            Dictionary<int, List<string>> registry = AllocateRegistry();
 
             do
             {
@@ -33,6 +34,9 @@ namespace SchoolRegistration
                         break;
                     case PRINT_PART_OPTION:
                         PrintPartRegistry(registry);
+                        break;
+                    case SEARCH_STUDENT_CLASS:
+                        SearchStudentClass(registry);
                         break;
                 }
             }
@@ -50,7 +54,8 @@ namespace SchoolRegistration
                 Console.WriteLine("1. Insert data");
                 Console.WriteLine("2. Print all classes");
                 Console.WriteLine("3. Print single class");
-                Console.WriteLine("4. Quit");
+                Console.WriteLine("4. Search student's class");
+                Console.WriteLine("5. Quit");
 
                 option = Console.ReadLine()[0];
             }
@@ -59,19 +64,21 @@ namespace SchoolRegistration
             return option;
         }
 
-        static List<string>[] AllocateRegistry()
+
+        
+        static Dictionary<int, List<string>> AllocateRegistry()
         {
-            List<string>[] registry = new List<string>[CLASSES];
+            Dictionary<int, List<string>> registry = new Dictionary<int, List<string>>();
 
             for (int i = 0; i < CLASSES; i++)
             {
-                registry[i] = new List<string>();
+                registry.Add(i, new List<string>());
             }
-
+       
             return registry;
         }
 
-        static void InputRegistry(List<string>[] registry)
+        static void InputRegistry(Dictionary<int, List<string>> registry)
         {
             string name;
             int classNum;
@@ -119,13 +126,14 @@ namespace SchoolRegistration
             return classNum;
         }
 
-        static void PrintRegistry(List<string>[] registry)
+        static void PrintRegistry(Dictionary<int, List<string>> registry)
         {
             for (int classNum = 0; classNum < CLASSES; classNum++)
             {
                 Console.WriteLine($"Class {classNum + 1}:");
 
-                if (registry[classNum].Count > 0) {
+                if (registry[classNum].Count > 0)
+                {
 
                     foreach (string name in registry[classNum])
                     {
@@ -139,7 +147,27 @@ namespace SchoolRegistration
             }
         }
 
-        static void PrintPartRegistry(List<string>[] registry)
+        static void SearchStudentClass(Dictionary<int, List<string>> registry)
+        {
+
+            Console.WriteLine("Insert the student name you are looking for: ");
+            Console.WriteLine("");
+            string name = Console.ReadLine();
+
+            if (!name.Equals("")) {
+
+                for (int classNum = 0; classNum < CLASSES; classNum++)
+                {
+
+                    if (registry[classNum].Contains(name))
+                    {
+                        Console.WriteLine($"Class {classNum + 1}:");
+                    }
+                }
+            }
+        }
+
+        static void PrintPartRegistry(Dictionary<int, List<string>> registry)
         {
 
             int classNum = InsertClass("What class would you print: ");
