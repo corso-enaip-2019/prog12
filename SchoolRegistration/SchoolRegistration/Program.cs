@@ -13,7 +13,8 @@ namespace SchoolRegistration
         const char PRINT_ALL_OPTION = '2';
         const char PRINT_PART_OPTION = '3';
         const char SEARCH_STUDENT_CLASS = '4';
-        const char QUIT_OPTION  = '5';
+        const char REMOVE_STUDENT = '5';
+        const char QUIT_OPTION  = '6';
 
         static void Main(string[] args)
         {
@@ -38,6 +39,9 @@ namespace SchoolRegistration
                     case SEARCH_STUDENT_CLASS:
                         SearchStudentClass(registry);
                         break;
+                    case REMOVE_STUDENT:
+                        RemoveStudent(registry);
+                        break;
                 }
             }
             while (option != QUIT_OPTION);
@@ -55,7 +59,8 @@ namespace SchoolRegistration
                 Console.WriteLine("2. Print all classes");
                 Console.WriteLine("3. Print single class");
                 Console.WriteLine("4. Search student's class");
-                Console.WriteLine("5. Quit");
+                Console.WriteLine("5. Remove student");
+                Console.WriteLine("6. Quit");
 
                 option = Console.ReadLine()[0];
             }
@@ -163,6 +168,56 @@ namespace SchoolRegistration
                     {
                         Console.WriteLine($"Class {classNum + 1}:");
                     }
+                }
+            }
+        }
+
+        static void RemoveStudent(Dictionary<int, List<string>> registry)
+        {
+
+            Console.WriteLine("Insert the student name you wish remove: ");
+            Console.WriteLine("");
+            string name = Console.ReadLine();
+            List<int> presence = new List<int>();
+
+            if (!name.Equals(""))
+            {
+                for (int classNum = 0; classNum < CLASSES; classNum++)
+                {
+                    if (registry[classNum].Contains(name))
+                    {
+                        int count = 0;
+                        presence.Add(classNum);
+                        Console.WriteLine($"Class {classNum + 1}:");
+                        foreach (string nm in registry[classNum])
+                        {
+                            if (nm.Equals(name))
+                            {
+                                count++;
+                            }
+                        }
+
+                        Console.WriteLine($"There are {count}: '{name}'");
+                    }
+                }
+
+                if (presence.Count == 1)
+                {
+                    registry[presence[0]].Remove(name);
+                }
+                else if (presence.Count > 1)
+                {
+                    int classNum = 0;
+                    Console.WriteLine();
+                    Console.WriteLine("");
+
+                    do
+                    {
+                        classNum = InsertClass("From which class do you want remove: ");
+                    }
+                    while (!presence.Contains(classNum - 1));
+
+                    registry[classNum - 1].Remove(name);
                 }
             }
         }
