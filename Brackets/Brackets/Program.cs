@@ -10,27 +10,26 @@ namespace Brackets
     {
         static void Main(string[] args)
         {
-            string text = @"({(
-[({}
-)](
-))
-)";
-            int line;
+            string text = @"({
+[({})]
+)})";
+            int errorLine;
+            int errorColumn;
             int index;
 
-            if (CheckBrackets(text, out index, out line))
+            if (CheckBrackets(text, out index, out errorLine, out errorColumn))
             {
                 Console.WriteLine("Brackets Ok");
             }
             else
             {
-                Console.WriteLine($"Brackets NOT Ok index: {index} line: {line}");
+                Console.WriteLine($"Brackets NOT Ok index: {index} errorLine: {errorLine} errorColumn: {errorColumn}");
             }
 
             Console.ReadLine();
         }
 
-        static bool IsNewline(char c)
+        static bool IsNewerrorLine(char c)
         {
             return c == '\n';
         }
@@ -40,36 +39,42 @@ namespace Brackets
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        static bool CheckBrackets(string text, out int index, out int line)
+        static bool CheckBrackets(string text, out int index, out int errorLine, out int errorColumn)
         {
             Stack<char> stack = new Stack<char>();
-            char[] pOpen = {'(', '[', '{'};
-            char[] pClose ={')', ']', '}'};
-            line = 0;
+            char[] OpeningBracket = {'(', '[', '{'};
+            char[] ClosingBracket = {')', ']', '}'};
+
+            errorLine = 1;
+            errorColumn = 0;
 
             for (index = 0; index < text.Length; index++)
             {
                 int closeIndex = 0;
                 char charAt = text[index];
-                
-                if (IsNewline(charAt))
+
+                errorColumn++;
+
+                if (IsNewerrorLine(charAt))
                 {
-                    line++;
+                    errorColumn = 1;
+                    errorLine++;
                 }
 
-                if (Array.IndexOf(pOpen, charAt) >= 0) {
+                if (Array.IndexOf(OpeningBracket, charAt) >= 0) {
 
                     stack.Push(charAt);
                 }
-                else if ((closeIndex = Array.IndexOf(pClose, charAt)) >= 0)
+                else if ((closeIndex = Array.IndexOf(ClosingBracket, charAt)) >= 0)
                 {
                     if (stack.Count > 0)
                     {
                         char charInStack = stack.Pop();
 
                         if (closeIndex !=
-                            Array.IndexOf(pOpen, charInStack))
+                            Array.IndexOf(OpeningBracket, charInStack))
                         {
+
                             return false;
                         }
                     }
@@ -82,11 +87,5 @@ namespace Brackets
 
             return stack.Count == 0;
         }
-
-        //static char GetCorrespondingOpenBracket(char bracket)
-        //{
-
-
-        //}
     }
 }
