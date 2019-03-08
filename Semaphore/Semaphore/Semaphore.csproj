@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9BFE3CB6-BCA5-4F11-86F3-285F0BF3C1A1}</ProjectGuid>
+    <ProjectGuid>{9E073857-704B-40AB-98B4-E2801387092C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SchoolRegistration</RootNamespace>
-    <AssemblyName>SchoolRegistration</AssemblyName>
+    <RootNamespace>Semaphore</RootNamespace>
+    <AssemblyName>Semaphore</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\School.cs" />
-    <Compile Include="Entities\Student.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Semaphore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

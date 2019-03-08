@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace SchoolRegistration
 {
+    class Student
+    {
+
+
+    }
+
     class Program
     {
-        const int CLASSES = 5;
+        const int  CLASSES = 5;
         const char INPUT_OPTION = '1';
         const char PRINT_ALL_OPTION = '2';
         const char PRINT_PART_OPTION = '3';
