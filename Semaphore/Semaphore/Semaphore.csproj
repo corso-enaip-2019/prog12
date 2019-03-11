@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Semaphore.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Semaphore.cs" />
+    <Compile Include="SemaphoreThreeColors.cs" />
+    <Compile Include="SemaphoreTwoColors.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -6,25 +6,21 @@ using System.Threading.Tasks;
 
 namespace Semaphore
 {
-
-    class Semaphore
+    abstract class Semaphore
     {
         string _state;
 
-        public const string RED = "red";
-        public const string YELLOW = "yellow";
-        public const string GREEN = "green";
-    
         public Semaphore(string state)
         {
-            State = state;
+            _state = state;
         }
 
         public string State
         {
             set
             {
-                if (value.Equals(RED) || value.Equals(YELLOW) || value.Equals(GREEN))                {
+                if (IsValidState(value))
+                {
                     _state = value;
                 }
                 else
@@ -38,20 +34,8 @@ namespace Semaphore
             }
         }
 
-        public void change()
-        {
-            switch (State)
-            {
-                case RED:
-                    State = GREEN;
-                    break;
-                case GREEN:
-                    State = YELLOW;
-                    break;
-                case YELLOW:
-                    State = RED;
-                    break;
-            }
-        }
+        public abstract void SwitchColor();
+
+        public abstract bool IsValidState(string state);
     }
 }

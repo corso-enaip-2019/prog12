@@ -10,32 +10,48 @@ namespace Semaphore
     {
         static void Main(string[] args)
         {
-            Controller controller = new Controller();
-            Semaphore semaphoreA = new Semaphore(Semaphore.RED);
-            Semaphore semaphoreB = new Semaphore(Semaphore.GREEN);
+
+            string twoOrThreeLights;
+            CrossRoadController controller = null;
+
+
+            Console.WriteLine("Please insert '2' or '3' to specify the colors of traffic lights");
+
+            do
+            { 
+                twoOrThreeLights = Console.ReadLine();
+
+                switch (twoOrThreeLights)
+                {
+                    case "2":
+                        controller =
+                            new CrossRoadController(CrossRoadController.TWO_LIGHTS_SEMAPHORE);
+                        break;
+                    case "3":
+                        controller =
+                            new CrossRoadController(CrossRoadController.THREE_LIGHTS_SEMAPHORE);
+                        break;
+                    default:
+                        Console.WriteLine("Error: the inserted value should be '2' or '3', please try again");
+                        break;
+                }
+            }
+            while (controller == null) ;
 
             while (true)
             {
-                Console.WriteLine($"Semaphore(s) A status {semaphoreA.State}");
-                Console.WriteLine($"Semaphore(s) B status {semaphoreB.State}");
+                string[] semaphoresState = controller.GetSemaphoresState();
+
+                for (int i = 0; i < semaphoresState.Length; i++)
+                {
+                    Console.WriteLine($"Semaphore n. {i + 1} status {semaphoresState[i]}");
+                }
+
                 Console.WriteLine();
 
-                string controllerStatus = controller.next();
+                controller.Next();
 
-                if (controllerStatus.Contains("A"))
-                {
-                    semaphoreA.change();
-                }
-                if (controllerStatus.Contains("B"))
-                {
-                    semaphoreB.change();
-                }
-
-
-                for (int i = 0 ; i< 1000000000; i++)
-                {
-
-                }
+                for (int i = 0 ; i< 1000000000; i++) {}
             }
         }
     }
