@@ -36,7 +36,6 @@ namespace Semaphore
                             SemaphoreTwoColors.GREEN);
 
                     statesDiagram = twoLightsStatesDiagram;
-
                 }
                 else if (kind == THREE_LIGHTS_SEMAPHORE)
                 {
@@ -53,6 +52,7 @@ namespace Semaphore
                 }
             }
         }
+
         /// <summary>
         /// Switches the semaphores depending on stateDiagram, where the presence of "A" means
         /// the horizontal semaphores need to switch state, and "B" means switching the vertical
@@ -93,7 +93,5 @@ namespace Semaphore
 
             return semaphoresState;
         }
-
-
     }
 }

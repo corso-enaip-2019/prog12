@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E073857-704B-40AB-98B4-E2801387092C}</ProjectGuid>
+    <ProjectGuid>{9F057864-F1E3-4529-9DFA-7211B450C432}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Semaphore</RootNamespace>
-    <AssemblyName>Semaphore</AssemblyName>
+    <RootNamespace>ComputeGeometry</RootNamespace>
+    <AssemblyName>ComputeGeometry</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,13 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lamp.cs" />
-    <Compile Include="Semaphore.cs" />
-    <Compile Include="Controller.cs" />
+    <Compile Include="Circle.cs" />
+    <Compile Include="GeoForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SemaphoreThreeColors.cs" />
-    <Compile Include="SemaphoreTwoColors.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="Square.cs" />
+    <Compile Include="Triangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

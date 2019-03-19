@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E073857-704B-40AB-98B4-E2801387092C}</ProjectGuid>
+    <ProjectGuid>{A25A7495-404D-4472-917A-7703688C4D9D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Semaphore</RootNamespace>
-    <AssemblyName>Semaphore</AssemblyName>
+    <RootNamespace>ToDoManager</RootNamespace>
+    <AssemblyName>ToDoManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,13 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lamp.cs" />
-    <Compile Include="Semaphore.cs" />
-    <Compile Include="Controller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SemaphoreThreeColors.cs" />
-    <Compile Include="SemaphoreTwoColors.cs" />
+    <Compile Include="ToDo.cs" />
+    <Compile Include="ToDoList.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UsersList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
