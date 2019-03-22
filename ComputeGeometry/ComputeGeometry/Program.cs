@@ -20,11 +20,15 @@ namespace ComputeGeometry
 
             foreach (GeoForm form in Lista)
             {
-                if (form.Name.Equals("Cerchio")) {
-                    Console.WriteLine($"Forma {form.Name} Circonferenza {((Circle) form).ComputeCirle()} Area {form.ComputeArea()}");
+                if (form.Name.Equals("Cerchio"))
+                {
+                    Console.Write($"Forma {form.Name} ");
+                    Console.WriteLine("Circonferenza {0:0.00} Area {1:0.00}", ((Circle) form).ComputeCirle(), form.ComputeArea());
                 }
-                else {
-                Console.WriteLine($"Forma {form.Name} Perimetro {form.ComputePerimeter()} Area {form.ComputeArea()}");
+                else
+                {
+                    Console.Write($"Forma {form.Name} ");
+                    Console.WriteLine("Perimetro {0:0.00} Area {1:0.00}", form.ComputePerimeter(), form.ComputeArea());
                 }
             }
 
