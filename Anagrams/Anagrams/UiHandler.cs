@@ -8,24 +8,68 @@ namespace Anagrams
 {
     public class UiHandler : IUiHandler
     {
+
+        public int InsertInt(int min, int max)
+        {
+            int result;
+            bool isValid;
+
+            do
+            {
+                string input = InsertGeneric();
+
+                isValid = int.TryParse(input, out result) ? result >=min && result <= max: false;
+
+                if (!isValid)
+                {
+                    WriteMessage("The inserted value is not a valid menu option!\n\rPlease try again...");
+                }
+            } while (!isValid);
+
+            return result;
+        }
+
         public string InsertWord()
         {
             string result;
+            bool isValid;
+
+            do
+            {
+                result = InsertGeneric();
+
+                isValid = IsValidWord(result);
+
+                if (!isValid)
+                {
+                    WriteMessage("The inserted value is not a valid word!\n\rPlease try again...");
+                }
+            } while (!isValid);
+
+            return result;
+        }
+
+        public string InsertGeneric()
+        {
+            string result;
+            bool isValid;
 
             do
             {
                 result = Console.ReadLine().Trim();
 
-                if (!IsValid(result))
+                isValid = result.Equals("") ? false : true;
+
+                if (!isValid)
                 {
-                    WriteMessage("The inserted string is not valid!\n\rPlease try again");
+                    WriteMessage("The input should be not empty!\n\rPlease try again...");
                 }
-            } while (!IsValid(result));
+            } while (!isValid);
 
             return result;
         }
 
-        bool IsValid(string word)
+        bool IsValidWord(string word)
         {
             bool result = true;
 

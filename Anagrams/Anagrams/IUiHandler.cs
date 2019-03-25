@@ -9,6 +9,7 @@ namespace Anagrams
     public interface IUiHandler
     {
         string InsertWord();
+        int InsertInt(int min, int max);
         void WriteMessage(string message);
     }
 }

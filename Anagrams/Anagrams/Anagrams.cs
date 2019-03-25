@@ -8,17 +8,17 @@ namespace Anagrams
 {
     class Anagrams
     {
-//        WordsRepository repository = new WordsRepository(new Loader().FromMemory);
+//      WordsRepository repository = new WordsRepository(new Loader().FromMemory);
         WordsRepository repository = new WordsRepository(new Loader().FromFile);
         IUiHandler uiHandler = new UiHandler();
         List<GamePlay> gamePlayList = new List<GamePlay>();
      
-        public void Init()
+        public void Run()
         {
             int menuOption;
 
             gamePlayList.Add(new Challenge("Anagram challenge", uiHandler));
-            gamePlayList.Add(new Challenge("Anagram training", uiHandler));
+            gamePlayList.Add(new Training("Anagram training", uiHandler));
 
             do
             {
@@ -34,20 +34,18 @@ namespace Anagrams
 
         int GetMenuOption(List<GamePlay> gamePlayList, IUiHandler uiHandler)
         {
-            int result;
             int index = 1;
 
             uiHandler.WriteMessage($"Please choose what game you wish to play\n\r");
 
             foreach (GamePlay gamePlay in gamePlayList)
             {
-                uiHandler.WriteMessage($"{index} - {gamePlay.Description}");
+                uiHandler.WriteMessage($"{index++} - {gamePlay.Description}");
             }
 
             uiHandler.WriteMessage($"\n\r0 - to exit...");
 
-
-
+            return uiHandler.InsertInt(0, gamePlayList.Count());
         }
 
     }

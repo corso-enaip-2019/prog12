@@ -10,6 +10,7 @@ namespace Anagrams
     {
         static void Main(string[] args)
         {
+            (new Anagrams()).Run();
         }
     }
 }
