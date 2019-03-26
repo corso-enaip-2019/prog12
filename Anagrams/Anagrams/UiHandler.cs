@@ -18,7 +18,7 @@ namespace Anagrams
             {
                 string input = InsertGeneric();
 
-                isValid = int.TryParse(input, out result) ? result >=min && result <= max: false;
+                isValid = int.TryParse(input, out result) ? result >= min && result <= max: false;
 
                 if (!isValid)
                 {

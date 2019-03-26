@@ -9,7 +9,7 @@ namespace Anagrams
     interface IWordsRepository
     {
         List<string> ProduceAnagrams(string word);
-        bool IsAnagram(string word);
-        string RandomWord();
+        bool IsAnagram(string word, string tentativeAnagram);
+        string RandomWord(int minAnagrams);
     }
 }

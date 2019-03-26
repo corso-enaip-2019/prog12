@@ -17,41 +17,53 @@ namespace Anagrams
 
         public override void Run(WordsRepository repository)
         {
-            DateTime start, stop;
+            int points;
+            TimeSpan start, stop;
             string tentativeAnagram;
-            string randomWord = repository.RandomWord();
+            string randomWord = repository.RandomWord(2);
 
             UiHandler.WriteMessage(Description);
             UiHandler.WriteMessage("");
             UiHandler.WriteMessage("Provide the anagram for the following word:");
             UiHandler.WriteMessage(randomWord);
-            start = new DateTime().TimeOfDay();
+            start = (new DateTime()).TimeOfDay;
             tentativeAnagram = UiHandler.InsertWord();
-            stop = new DateTime().TimeOfDay();
+            stop = new DateTime().TimeOfDay;
 
-
-
-
-        }
-
-        bool IsValidAnagram(WordsRepository repository, string wordToAnagram, string tentativeAnagram)
-        {
-            bool result = true;
-
-            if (result == true && wordToAnagram.Length != tentativeAnagram.Length)
+            if (repository.IsAnagram(randomWord, tentativeAnagram))
             {
-                result = false;
+                points = ComputePoints(start, stop);
+
+                UiHandler.WriteMessage($"You anagrammed the word '{randomWord}' with '{tentativeAnagram}' scoring {points} poits.");
+            }
+            else
+            {
+                UiHandler.WriteMessage($"The provided word '{tentativeAnagram}' is not a valid anagram of '{tentativeAnagram}', so you scored 0 points.");
             }
 
-            if (result == true)
+            UiHandler.WriteMessage("");
+        }
+
+
+        int ComputePoints(TimeSpan start, TimeSpan stop)
+        {
+            int result = 0;
+            double seconds = (stop.Subtract(start)).TotalSeconds;
+            Dictionary<double, int> scoringTable = new Dictionary<double, int>
             {
-                char[] wtaArray = wordToAnagram.ToArray();
-                char[] taArray = tentativeAnagram.ToArray();
+                {5.0, 10},
+                {6.0, 6},
+                {7.0, 4},
+                {8.0, 2},
+                {9.0, 1},
+            };
 
-                Array.Sort(wtaArray);
-                Array.Sort(taArray);
-
-                if 
+            foreach (double t in scoringTable.Keys)
+            {
+                if (seconds <= t)
+                {
+                    result = scoringTable[t];
+                }
             }
 
             return result;

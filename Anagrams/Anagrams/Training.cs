@@ -15,32 +15,19 @@ namespace Anagrams
         {
         }
 
-        List<string> Permutations(string word)
-        {
-            char[] wordAsArray;
-            List<string> result = new List<string>();
-
-            return result;
-        }
-
-
         public override void Run(WordsRepository repository)
         {
             string word;
-            List<string> permutations;
 
             UiHandler.WriteMessage(Description);
             UiHandler.WriteMessage("");
             UiHandler.WriteMessage("Please type a word to anagram");
             word = UiHandler.InsertWord();
-            permutations = Permutations(word);
 
-            foreach (string s in permutations)
+
+            foreach (string w in repository.ProduceAnagrams(word))
             {
-                if (repository.IsAnagram(s))
-                { 
-                    UiHandler.WriteMessage(s);
-                }
+                 UiHandler.WriteMessage(w);
             }
         }
     }
