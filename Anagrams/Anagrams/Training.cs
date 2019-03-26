@@ -18,16 +18,22 @@ namespace Anagrams
         public override void Run(WordsRepository repository)
         {
             string word;
-
+            List<string> anagrams;
             UiHandler.WriteMessage(Description);
             UiHandler.WriteMessage("");
             UiHandler.WriteMessage("Please type a word to anagram");
             word = UiHandler.InsertWord();
-
-
-            foreach (string w in repository.ProduceAnagrams(word))
+            anagrams = repository.ProduceAnagrams(word);
+            if (anagrams.Count() > 0 )
             {
-                 UiHandler.WriteMessage(w);
+                foreach (string w in anagrams)
+                {
+                    UiHandler.WriteMessage(w);
+                }
+            }
+            else
+            {
+                UiHandler.WriteMessage("Sorry, the chosen word seems not having anagrams...");
             }
         }
     }

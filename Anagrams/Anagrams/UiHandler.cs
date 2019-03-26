@@ -56,7 +56,7 @@ namespace Anagrams
 
             do
             {
-                result = Console.ReadLine().Trim();
+                result = Console.ReadLine().Trim().ToLower();
 
                 isValid = result.Equals("") ? false : true;
 

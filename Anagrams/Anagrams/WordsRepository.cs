@@ -19,17 +19,20 @@ namespace Anagrams
 
         public List<string> ProduceAnagrams(string word)
         {
-            List<string> _anagrams = new List<string>();
+            List<string> anagrams = new List<string>();
+            List<string> permutations = new List<string>();
 
-            foreach (string w in _repository)
+            Permutations.GetAll(permutations, word.ToArray(), 0, word.Length);
+
+            foreach (string p in permutations)
             {
-                if (IsAnagram(word, w))
+                if (IsAnagram(word, p))
                 {
-                    _anagrams.Add(w);
+                    anagrams.Add(p);
                 }
             }
 
-            return _anagrams;
+            return anagrams;
         }
 
         public bool IsAnagram(string wordToAnagram, string tentativeAnagram)
@@ -84,41 +87,7 @@ namespace Anagrams
             return randomWord;
         }
 
-        void Permute(List<string> permutations, String str,
-                              int l, int r)
-        {
-            if (l == r)
-                permutations.Add(str);
-            else
-            {
-                for (int i = l; i <= r; i++)
-                {
-                    str = Swap(str, l, i);
-                    Permute(permutations, str, l + 1, r);
-                    str = Swap(str, l, i);
-                }
-            }
-        }
 
-        public String Swap(String a, int i, int j)
-        {
-            char temp;
-            char[] charArray = a.ToCharArray();
-            temp = charArray[i];
-            charArray[i] = charArray[j];
-            charArray[j] = temp;
-            string s = new string(charArray);
-            return s;
-        }
-
-        public List<string> Permutations(string word)
-        {
-            List<string> result = new List<string>();
-            Permute(result, word, 0, word.Length - 1);
-            result.Remove(word);
-
-            return result;
-        }
     }
 
 

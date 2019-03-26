@@ -50,6 +50,7 @@
     <Compile Include="GamePlay.cs" />
     <Compile Include="IUiHandler.cs" />
     <Compile Include="IWordsRepository.cs" />
+    <Compile Include="Permutations.cs" />
     <Compile Include="Training.cs" />
     <Compile Include="UiHandler.cs" />
     <Compile Include="WordsRepository.cs" />
