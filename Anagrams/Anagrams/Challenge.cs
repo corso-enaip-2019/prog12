@@ -15,9 +15,47 @@ namespace Anagrams
         {
         }
 
-        public override void Run()
+        public override void Run(WordsRepository repository)
         {
+            DateTime start, stop;
+            string tentativeAnagram;
+            string randomWord = repository.RandomWord();
+
+            UiHandler.WriteMessage(Description);
+            UiHandler.WriteMessage("");
+            UiHandler.WriteMessage("Provide the anagram for the following word:");
+            UiHandler.WriteMessage(randomWord);
+            start = new DateTime().TimeOfDay();
+            tentativeAnagram = UiHandler.InsertWord();
+            stop = new DateTime().TimeOfDay();
+
+
+
 
         }
+
+        bool IsValidAnagram(WordsRepository repository, string wordToAnagram, string tentativeAnagram)
+        {
+            bool result = true;
+
+            if (result == true && wordToAnagram.Length != tentativeAnagram.Length)
+            {
+                result = false;
+            }
+
+            if (result == true)
+            {
+                char[] wtaArray = wordToAnagram.ToArray();
+                char[] taArray = tentativeAnagram.ToArray();
+
+                Array.Sort(wtaArray);
+                Array.Sort(taArray);
+
+                if 
+            }
+
+            return result;
+        }
+
     }
 }

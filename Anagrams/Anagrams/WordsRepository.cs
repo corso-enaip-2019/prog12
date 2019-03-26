@@ -23,6 +23,23 @@ namespace Anagrams
 
             return _anagrams;
         }
+
+        public bool IsAnagram(string word)
+        {
+            bool result = false;
+            
+            if (word != null)
+            {
+                result = _repository.Contains(word);
+            }
+
+            return result;
+        }
+
+        public string RandomWord()
+        {
+            return _repository[new Random().Next() % _repository.Count()];
+        }
     }
 
 

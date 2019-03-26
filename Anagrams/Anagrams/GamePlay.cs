@@ -24,6 +24,6 @@ namespace Anagrams
         public virtual string Description { set; get; }
         public virtual IUiHandler UiHandler { set; get; }
 
-        public abstract void Run();
+        public abstract void Run(WordsRepository repository);
     }
 }

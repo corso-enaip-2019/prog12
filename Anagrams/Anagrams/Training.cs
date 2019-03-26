@@ -20,25 +20,11 @@ namespace Anagrams
             char[] wordAsArray;
             List<string> result = new List<string>();
 
-            for (int i = 0; i < word.Length - 1; i++)
-            {
-                for (int j = i + 1; j < word.Length; j++)
-                {
-                    wordAsArray = word.ToArray();
-
-                    char t = wordAsArray[i];
-                    wordAsArray[i] = wordAsArray[j];
-                    wordAsArray[j] = t;
-
-                    result.Add(new string(wordAsArray));
-                }
-            }
-
             return result;
         }
 
 
-        public override void Run()
+        public override void Run(WordsRepository repository)
         {
             string word;
             List<string> permutations;
@@ -51,9 +37,11 @@ namespace Anagrams
 
             foreach (string s in permutations)
             {
-                UiHandler.WriteMessage(s);
+                if (repository.IsAnagram(s))
+                { 
+                    UiHandler.WriteMessage(s);
+                }
             }
-
         }
     }
 }

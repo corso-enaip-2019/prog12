@@ -26,7 +26,7 @@ namespace Anagrams
 
                 if (menuOption != 0)
                 {
-                    gamePlayList[menuOption - 1].Run();
+                    gamePlayList[menuOption - 1].Run(repository);
                 }
             
             } while (menuOption != 0);
