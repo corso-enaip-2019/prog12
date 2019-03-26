@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StringPermutations
 {
-    
+    //https://www.geeksforgeeks.org/distinct-permutations-string-set-2/
     class Program
     {
 
@@ -76,16 +76,13 @@ namespace StringPermutations
             return ceilIndex;
         }
 
-        static void swap(char[] array, int start, int end, int length)
+        static void Swap(out char a, out char b)
         {
             char tmp;
 
-            for (int x = 0; x < length; x++)
-            {
-                tmp = array[start + x];
-                array[start + x] = array[end + x];
-                array[end + x] = tmp;
-            }
+            tmp = a;
+            a = b;
+            b = tmp;
         }
     }
 }
