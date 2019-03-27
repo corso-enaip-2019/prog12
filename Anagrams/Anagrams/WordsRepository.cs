@@ -11,17 +11,50 @@ namespace Anagrams
     public class WordsRepository : IWordsRepository
     {
         List<string> _repository;
-        Dictionary<string, int> _disassembledAnagram;
+        Dictionary<int, List<string>> _numberOfAnagramsToAnagramsList;
+        Dictionary<string, List<string>> _disassembledWordToAnagramsList;
 
         public WordsRepository(LoadRepository loader)
         {
             _repository = loader();
-            _disassembledAnagram = new Dictionary<string, int>();
+
+            _numberOfAnagramsToAnagramsList = new Dictionary<int, List<string>>();
+            _disassembledWordToAnagramsList = new Dictionary<string, List<string>>();
 
             foreach (string word in _repository)
             {
-                _disassembledAnagram[DisassembleWord(word)]++;
+                string disassembledWord = DisassembleWord(word);
+
+                if (!_disassembledWordToAnagramsList.ContainsKey(disassembledWord))
+                {
+                    _disassembledWordToAnagramsList[disassembledWord] = new List<string>();
+                }
+
+                _disassembledWordToAnagramsList[disassembledWord].Add(word);
             }
+
+            foreach (string disassembledWord in _disassembledWordToAnagramsList.Keys)
+            {
+                int numberOfAnagrams = _disassembledWordToAnagramsList[disassembledWord].Count - 1;
+
+                if (numberOfAnagrams > 0)
+                {
+                    if (!_numberOfAnagramsToAnagramsList.ContainsKey(numberOfAnagrams))
+                    {
+                        _numberOfAnagramsToAnagramsList[numberOfAnagrams] = new List<string>();
+                    }
+
+                    _numberOfAnagramsToAnagramsList[numberOfAnagrams].AddRange( 
+                        _disassembledWordToAnagramsList[disassembledWord]
+                    );
+                }
+
+            }
+        }
+
+        public int GetRepositoryMaxNumberOfAnagrams()
+        {
+            return _numberOfAnagramsToAnagramsList.Keys.Max();
         }
 
         public string DisassembleWord(string word)
@@ -30,8 +63,11 @@ namespace Anagrams
 
             Array.Sort(wordToArray);
 
-            return wordToArray.ToString();
+            return new string(wordToArray);
         }
+
+
+
 
         public List<string> ProduceAnagrams(string word)
         {
@@ -90,14 +126,15 @@ namespace Anagrams
 
         public string RandomWord(int minAnagrams)
         {
-            string randomWord;
 
+            string randomWord ="";
+/*
             do
             {
                 randomWord = _repository[new Random().Next() % _repository.Count()];
             }
             while (_disassembledAnagram[DisassembleWord(randomWord)] <= minAnagrams);
-
+            */
             return randomWord;
         }
     }
