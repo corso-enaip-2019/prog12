@@ -23,10 +23,12 @@ namespace Anagrams
             string randomWord = repository.RandomWord(2);
 
             UiHandler.WriteMessage(Description);
-            UiHandler.WriteMessage("");
+            UiHandler.WriteMessage();
             UiHandler.WriteMessage("Provide the anagram for the following word:");
+
             UiHandler.WriteMessage(randomWord);
-            start = (new DateTime()).TimeOfDay;
+
+            start = new DateTime().TimeOfDay;
             tentativeAnagram = UiHandler.InsertWord();
             stop = new DateTime().TimeOfDay;
 
@@ -41,7 +43,7 @@ namespace Anagrams
                 UiHandler.WriteMessage($"The provided word '{tentativeAnagram}' is not a valid anagram of '{tentativeAnagram}', so you scored 0 points.");
             }
 
-            UiHandler.WriteMessage("");
+            UiHandler.WriteMessage();
         }
 
 

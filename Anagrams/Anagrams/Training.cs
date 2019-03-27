@@ -20,10 +20,13 @@ namespace Anagrams
             string word;
             List<string> anagrams;
             UiHandler.WriteMessage(Description);
-            UiHandler.WriteMessage("");
+            UiHandler.WriteMessage();
             UiHandler.WriteMessage("Please type a word to anagram");
+
             word = UiHandler.InsertWord();
+
             anagrams = repository.ProduceAnagrams(word);
+
             if (anagrams.Count() > 0 )
             {
                 foreach (string w in anagrams)

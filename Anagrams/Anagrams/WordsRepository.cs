@@ -11,10 +11,26 @@ namespace Anagrams
     public class WordsRepository : IWordsRepository
     {
         List<string> _repository;
+        Dictionary<string, int> _disassembledAnagram;
 
         public WordsRepository(LoadRepository loader)
         {
             _repository = loader();
+            _disassembledAnagram = new Dictionary<string, int>();
+
+            foreach (string word in _repository)
+            {
+                _disassembledAnagram[DisassembleWord(word)]++;
+            }
+        }
+
+        public string DisassembleWord(string word)
+        {
+            char[] wordToArray = word.ToArray();
+
+            Array.Sort(wordToArray);
+
+            return wordToArray.ToString();
         }
 
         public List<string> ProduceAnagrams(string word)
@@ -39,12 +55,12 @@ namespace Anagrams
         {
             bool result = true;
 
-            if (result && wordToAnagram.Equals(tentativeAnagram))
+            if (result && wordToAnagram.Length != tentativeAnagram.Length)
             {
                 result = false;
             }
 
-            if (result && wordToAnagram.Length != tentativeAnagram.Length)
+            if (result && wordToAnagram.Equals(tentativeAnagram))
             {
                 result = false;
             }
@@ -63,7 +79,8 @@ namespace Anagrams
                 }
             }
 
-            if (result && !_repository.Contains(tentativeAnagram))
+            if (result && _repository.BinarySearch(tentativeAnagram) < 0)
+//            if (result && !_repository.Contains(tentativeAnagram))
             {
                 result = false;
             }
@@ -74,21 +91,14 @@ namespace Anagrams
         public string RandomWord(int minAnagrams)
         {
             string randomWord;
-            List<string> anagrams;
 
             do
             {
                 randomWord = _repository[new Random().Next() % _repository.Count()];
-
-                anagrams = ProduceAnagrams(randomWord);
             }
-            while (anagrams.Count < minAnagrams);
+            while (_disassembledAnagram[DisassembleWord(randomWord)] <= minAnagrams);
 
             return randomWord;
         }
-
-
     }
-
-
 }

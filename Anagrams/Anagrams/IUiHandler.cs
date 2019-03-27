@@ -11,5 +11,6 @@ namespace Anagrams
         string InsertWord();
         int InsertInt(int min, int max);
         void WriteMessage(string message);
+        void WriteMessage();
     }
 }

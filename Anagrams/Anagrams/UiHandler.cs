@@ -89,5 +89,10 @@ namespace Anagrams
         {
             Console.WriteLine(message);
         }
+
+        public void WriteMessage()
+        {
+            WriteMessage("");
+        }
     }
 }
