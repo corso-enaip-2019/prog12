@@ -16,19 +16,36 @@ namespace Prime
 
             howMany = ReadInteger("Please insert how many prime numbers to calculate: ");
 
+            List<int> primes = GetFirstPrimeNumbers(howMany);
+            PrintPrimeNumbers(primes);
+
+            Console.ReadKey();
+        }
+
+        static List<int> GetFirstPrimeNumbers(int howMany)
+        {
             int number = 2;
+            List<int> primes = new List<int>();
+
             do
             {
                 if (IsPrime(number))
                 {
-                    Console.WriteLine(string.Format("The number {0,4} is prime!", number));
-                    howMany--;
+                    primes.Add(number);
                 }
                 number++;
             }
-            while (howMany > 0);
+            while (primes.Count < howMany);
 
-            Console.ReadKey();
+            return primes;
+        }
+
+        static void PrintPrimeNumbers(List<int> primes)
+        {
+            foreach (int number in primes)
+            {
+                Console.WriteLine(string.Format("The number {0,4} is prime!", number));
+            }
         }
 
         static bool IsPrime(int n)
