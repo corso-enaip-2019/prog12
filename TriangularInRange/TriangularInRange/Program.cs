@@ -21,12 +21,12 @@ namespace TriangularInRange
                 lower = ReadInteger("Please insert the lower  value (positive integer): ");
                 upper = ReadInteger("Please insert the higher value (positive integer): ");
 
-                if (lower >= upper)
+                if (lower > upper)
                 {
                     Console.WriteLine("The lower value should be less than the higher one!");
                 }
             }
-            while (lower >= upper);
+            while (lower > upper);
 
             // Formula retrieved from https://en.wikipedia.org/wiki/Triangular_number
 
@@ -62,7 +62,7 @@ namespace TriangularInRange
                 if (!validInput || result <= 0)
                 {
                     Console.WriteLine();
-                    Console.WriteLine("The value provided is not a valid integer! Please try again...");
+                    Console.WriteLine("The value provided is not a valid integer or zero or negative! Please try again...");
                     Console.WriteLine();
 
                 }
