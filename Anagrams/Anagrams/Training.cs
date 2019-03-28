@@ -27,17 +27,29 @@ namespace Anagrams
 
             anagrams = repository.ProduceAnagrams(word);
 
-            if (anagrams.Count() > 0 )
+            if (anagrams.Count() > 0)
             {
-                foreach (string w in anagrams)
+                if (anagrams.Count() == 1)
                 {
-                    UiHandler.WriteMessage(w);
+                    UiHandler.WriteMessage("The provided word does not have any anagram...");
+                }
+                else
+                {
+                    foreach (string w in anagrams)
+                    {
+                        if (!word.Equals(w)) { 
+                            UiHandler.WriteMessage(w);
+                        }
+                    }
                 }
             }
             else
             {
-                UiHandler.WriteMessage("Sorry, the chosen word seems not having anagrams...");
+                UiHandler.WriteMessage("Sorry, the chosen word does not exist in the word repository...");
             }
+
+            UiHandler.WriteMessage();
+            UiHandler.WriteMessage();
         }
     }
 }

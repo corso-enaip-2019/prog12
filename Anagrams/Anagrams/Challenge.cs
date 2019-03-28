@@ -8,6 +8,7 @@ namespace Anagrams
 {
     class Challenge : GamePlay
     {
+        const int MIN_NUMBER_OF_ANAGRAMS = 10; // THE MAX NUMBER OF ANAGRAMS IN THE PROVIDED WORD DICTIONARY IS 23!
         public override IUiHandler UiHandler { set; get; }
         public override string Description { set; get; }
 
@@ -18,9 +19,9 @@ namespace Anagrams
         public override void Run(WordsRepository repository)
         {
             int points;
-            TimeSpan start, stop;
+            DateTime start, stop;
             string tentativeAnagram;
-            string randomWord = repository.RandomWord(2);
+            string randomWord = repository.RandomWord(MIN_NUMBER_OF_ANAGRAMS);
 
             UiHandler.WriteMessage(Description);
             UiHandler.WriteMessage();
@@ -28,9 +29,11 @@ namespace Anagrams
 
             UiHandler.WriteMessage(randomWord);
 
-            start = new DateTime().TimeOfDay;
+            start = DateTime.Now;
+
             tentativeAnagram = UiHandler.InsertWord();
-            stop = new DateTime().TimeOfDay;
+
+            stop = DateTime.Now;
 
             if (repository.IsAnagram(randomWord, tentativeAnagram))
             {
@@ -47,7 +50,7 @@ namespace Anagrams
         }
 
 
-        int ComputePoints(TimeSpan start, TimeSpan stop)
+        int ComputePoints(DateTime start, DateTime stop)
         {
             int result = 0;
             double seconds = (stop.Subtract(start)).TotalSeconds;
@@ -62,9 +65,10 @@ namespace Anagrams
 
             foreach (double t in scoringTable.Keys)
             {
-                if (seconds <= t)
+                if (seconds < t)
                 {
                     result = scoringTable[t];
+                    break;
                 }
             }
 

@@ -33,8 +33,10 @@ namespace Anagrams
                 _disassembledWordToAnagramsList[disassembledWord].Add(word);
             }
 
-            foreach (string disassembledWord in _disassembledWordToAnagramsList.Keys)
+            foreach (string word in _repository)
             {
+                string disassembledWord = DisassembleWord(word);
+
                 int numberOfAnagrams = _disassembledWordToAnagramsList[disassembledWord].Count - 1;
 
                 if (numberOfAnagrams > 0)
@@ -44,20 +46,33 @@ namespace Anagrams
                         _numberOfAnagramsToAnagramsList[numberOfAnagrams] = new List<string>();
                     }
 
-                    _numberOfAnagramsToAnagramsList[numberOfAnagrams].AddRange( 
-                        _disassembledWordToAnagramsList[disassembledWord]
-                    );
+                    _numberOfAnagramsToAnagramsList[numberOfAnagrams].Add(word);
                 }
-
             }
         }
 
+        public List<string> ProduceAnagrams(string word)
+        {
+            List<string> result = null;
+            string disassembledWord = DisassembleWord(word);
+
+            if (_disassembledWordToAnagramsList.ContainsKey(disassembledWord))
+            {
+                result = _disassembledWordToAnagramsList[disassembledWord];
+            }
+            else
+            {
+                result = new List<string>();
+            }
+
+            return result;
+        }
         public int GetRepositoryMaxNumberOfAnagrams()
         {
             return _numberOfAnagramsToAnagramsList.Keys.Max();
         }
 
-        public string DisassembleWord(string word)
+        string DisassembleWord(string word)
         {
             char[] wordToArray = word.ToArray();
 
@@ -66,59 +81,21 @@ namespace Anagrams
             return new string(wordToArray);
         }
 
-
-
-
-        public List<string> ProduceAnagrams(string word)
+        public bool IsAnagram(string word, string tentativeAnagram)
         {
-            List<string> anagrams = new List<string>();
-            List<string> permutations = new List<string>();
+            bool result = false;
 
-            Permutations.GetAll(permutations, word.ToArray(), 0, word.Length);
-
-            foreach (string p in permutations)
+            if (!word.Equals(tentativeAnagram))
             {
-                if (IsAnagram(word, p))
+                string disassembledWord = DisassembleWord(word);
+
+                if (_disassembledWordToAnagramsList.ContainsKey(disassembledWord))
                 {
-                    anagrams.Add(p);
+                    if (_disassembledWordToAnagramsList[disassembledWord].Contains(tentativeAnagram))
+                    {
+                        result = true;
+                    }
                 }
-            }
-
-            return anagrams;
-        }
-
-        public bool IsAnagram(string wordToAnagram, string tentativeAnagram)
-        {
-            bool result = true;
-
-            if (result && wordToAnagram.Length != tentativeAnagram.Length)
-            {
-                result = false;
-            }
-
-            if (result && wordToAnagram.Equals(tentativeAnagram))
-            {
-                result = false;
-            }
-
-            if (result)
-            {
-                char[] wtaArray = wordToAnagram.ToArray();
-                char[] taArray = tentativeAnagram.ToArray();
-
-                Array.Sort(wtaArray);
-                Array.Sort(taArray);
-
-                if (!wtaArray.ToString().Equals(taArray.ToString()))
-                {
-                    result = false;
-                }
-            }
-
-            if (result && _repository.BinarySearch(tentativeAnagram) < 0)
-//            if (result && !_repository.Contains(tentativeAnagram))
-            {
-                result = false;
             }
 
             return result;
@@ -126,16 +103,18 @@ namespace Anagrams
 
         public string RandomWord(int minAnagrams)
         {
+            string result = null;
+            int maxNumberOfAnagrams = GetRepositoryMaxNumberOfAnagrams();
 
-            string randomWord ="";
-/*
-            do
+            if (minAnagrams <= GetRepositoryMaxNumberOfAnagrams())
             {
-                randomWord = _repository[new Random().Next() % _repository.Count()];
+                int randomAnagramNumber = minAnagrams + (new Random().Next()) % (maxNumberOfAnagrams - minAnagrams + 1);
+                int randomWordIndex = new Random().Next() % _numberOfAnagramsToAnagramsList[randomAnagramNumber].Count();
+
+                result = _numberOfAnagramsToAnagramsList[randomAnagramNumber][randomWordIndex];
             }
-            while (_disassembledAnagram[DisassembleWord(randomWord)] <= minAnagrams);
-            */
-            return randomWord;
+
+            return result;
         }
     }
 }

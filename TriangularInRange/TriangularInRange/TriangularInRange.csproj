@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1313AC1E-82CF-4A0D-97F2-63FD88658506}</ProjectGuid>
+    <ProjectGuid>{81694A68-D083-4BF2-BA0F-77490795FAFF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Anagrams</RootNamespace>
-    <AssemblyName>Anagrams</AssemblyName>
+    <RootNamespace>TriangularInRange</RootNamespace>
+    <AssemblyName>TriangularInRange</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,26 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Anagrams.cs" />
-    <Compile Include="Challenge.cs" />
-    <Compile Include="Loader.cs" />
-    <Compile Include="FileWordsRepository.cs" />
-    <Compile Include="GamePlay.cs" />
-    <Compile Include="IUiHandler.cs" />
-    <Compile Include="IWordsRepository.cs" />
-    <Compile Include="Training.cs" />
-    <Compile Include="UiHandler.cs" />
-    <Compile Include="WordsRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="660000_parole_italiane.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
