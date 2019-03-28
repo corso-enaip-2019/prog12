@@ -21,7 +21,7 @@ namespace Prime
             {
                 if (IsPrime(number))
                 {
-                    Console.WriteLine($"The number {number} is prime!");
+                    Console.WriteLine(string.Format("The number {0,4} is prime!", number));
                     howMany--;
                 }
                 number++;
@@ -66,7 +66,7 @@ namespace Prime
                 if (!validInput || result < 1)
                 {
                     Console.WriteLine();
-                    Console.WriteLine("The value provided is should be >= 1! Please try again...");
+                    Console.WriteLine("The value provided is invalid or less than 1! Please try again...");
                     Console.WriteLine();
 
                 }
