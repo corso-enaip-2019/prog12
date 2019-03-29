@@ -28,22 +28,21 @@ namespace TriangularInRange
             }
             while (lower > upper);
 
-            // Formula retrieved from https://en.wikipedia.org/wiki/Triangular_number
-
-            seed = (int)(Math.Sqrt(8 * lower + 1) - 1) / 2;
-
-            Console.WriteLine("\r\nResults\r\n");
+            seed = 1;
 
             do
             {
-                seed++;
-                triangular = seed * (seed + 1) / 2;
-                if (triangular < upper)
-                {
-                    Console.WriteLine($"Triangular number is :{triangular}");
-                }
+                triangular = seed * (++seed) / 2;
             }
-            while (triangular < upper);
+            while (triangular < lower);
+            
+            Console.WriteLine("\r\nResults\r\n");
+
+            while (triangular <= upper)
+            {
+                Console.WriteLine(string.Format("Triangular number is : {0,4}", triangular));
+                triangular = seed * (++seed) / 2;
+            }
 
             Console.ReadKey();
         }
