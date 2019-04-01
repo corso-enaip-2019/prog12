@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6EBB26CF-6873-41CC-B465-C7712F63B753}</ProjectGuid>
+    <ProjectGuid>{3F5715D2-98F9-49B6-B691-4EECB91A2058}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Exercises</RootNamespace>
-    <AssemblyName>Exercises</AssemblyName>
+    <RootNamespace>StarWars1</RootNamespace>
+    <AssemblyName>StarWars1</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,9 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Execises.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

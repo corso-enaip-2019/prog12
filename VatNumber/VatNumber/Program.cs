@@ -26,7 +26,7 @@ namespace VatNumber
             int option;
             int VATcode;
             bool isValid;
-            decimal fattura;
+            decimal bill;
             decimal spesa;
 
             VatNumberNormal vatNumberNormal;
@@ -117,59 +117,14 @@ namespace VatNumber
                 {
                     case 1: // Aggiungi fattura
                         {
-                            // Inserimento Partita IVA Begin
-                            do
-                            {
-                                Console.WriteLine("Inserisci il numero Partita IVA");
-
-                                isValid = int.TryParse(Console.ReadLine(), out VATcode);
-
-                                if (!isValid)
-                                {
-                                    Console.WriteLine("Il valore inserito non e' valido! Riprova...");
-                                }
-                                else
-                                {
-                                    isValid = false;
-
-                                    foreach (object o in VatNumbers)
-                                    {
-                                        int code;
-
-                                        if (o is VatNumberSimple)
-                                        {
-                                            code = ((VatNumberSimple) o).Code;
-                                        }
-                                        else
-                                        {
-                                            code = ((VatNumberNormal) o).Code;
-
-                                        }
-
-                                        if (VATcode == code)
-                                        {
-                                            isValid = true;
-                                            FoundVATNumber = o;
-                                            break;
-                                        }
-                                    }
-
-                                    if (!isValid)
-                                    {
-                                        Console.WriteLine("La partita IVA inserita non esiste nel database! Riprova...");
-                                    }
-                                }
-
-                            }
-                            while (!isValid);
-                            // Inserimento Partita IVA End
+                            VATcode = AskVATCode("Inserisci il numero Partita IVA");
 
                             // Inserimento fattura Begin
                             do
                             {
                                 Console.WriteLine("Inserisci il valore della fattura");
 
-                                isValid = decimal.TryParse(Console.ReadLine(), out fattura);
+                                isValid = decimal.TryParse(Console.ReadLine(), out bill);
 
                                 if (!isValid)
                                 {
@@ -180,16 +135,9 @@ namespace VatNumber
                             // Inserimento fattura End
 
                             // Aggiungi fattura a Partita Iva Begin
-                            if (FoundVATNumber != null) {
-                                if (FoundVATNumber is VatNumberNormal)
-                                {
-                                    ((VatNumberNormal) FoundVATNumber).Bills.Add(fattura);
-                                }
-                                else
-                                {
-                                    ((VatNumberSimple)FoundVATNumber).Bills.Add(fattura);
-                                }
-                            }
+
+                            AddBill(VatNumbers, FoundVATNumber, bill);
+
                             // Aggiungi fattura a Partita Iva End
                         }
                         break;
@@ -197,6 +145,8 @@ namespace VatNumber
                     case 2: // Aggiungi spesa
                         {
                             // Inserimento Partita IVA Begin
+
+
                             do
                             {
                                 Console.WriteLine("Inserisci il numero Partita IVA");
@@ -209,41 +159,17 @@ namespace VatNumber
                                 }
                                 else
                                 {
-                                    isValid = false;
+                                    FoundVATNumber = SearchVATNumber(VatNumbers, VATcode);
 
-                                    foreach (object o in VatNumbers)
-                                    {
-                                        int code;
-
-                                        if (o is VatNumberSimple)
-                                        {
-                                            code = ((VatNumberSimple) o).Code;
-                                        }
-                                        else
-                                        {
-                                            code = ((VatNumberNormal) o).Code;
-
-                                        }
-
-                                        if (VATcode == code)
-                                        {
-                                            isValid = true;
-                                            FoundVATNumber = o;
-                                            break;
-                                        }
-                                    }
-
-                                    if (!isValid)
-                                    {
-                                        Console.WriteLine("La partita IVA inserita non esiste nel database! Riprova...");
-                                    }
+                                    isValid = FoundVATNumber != null;
                                 }
-
                             }
                             while (!isValid);
                             // Inserimento Partita IVA End
 
                             // Aggiungi spesa a Partita Iva Begin
+
+
                             if (FoundVATNumber != null)
                             {
                                 if (FoundVATNumber is VatNumberNormal)
@@ -263,7 +189,7 @@ namespace VatNumber
                                     while (!isValid);
                                     // Inserimento spesa End
 
-                                    ((VatNumberNormal)FoundVATNumber).Expenses.Add(spesa);
+                                    AddExpense(VatNumbers, FoundVATNumber, expense);
                                 }
                                 else
                                 {
@@ -271,7 +197,6 @@ namespace VatNumber
                                 }
                             }
                             // Aggiungi spesa a Partita Iva End
-
                         }
                         break;
 
@@ -290,34 +215,9 @@ namespace VatNumber
                                 }
                                 else
                                 {
-                                    isValid = false;
+                                    FoundVATNumber = SearchVATNumber(VatNumbers, VATcode);
 
-                                    foreach (object o in VatNumbers)
-                                    {
-                                        int code;
-
-                                        if (o is VatNumberSimple)
-                                        {
-                                            code = ((VatNumberSimple) o).Code;
-                                        }
-                                        else
-                                        {
-                                            code = ((VatNumberNormal) o).Code;
-
-                                        }
-
-                                        if (VATcode == code)
-                                        {
-                                            isValid = true;
-                                            FoundVATNumber = o;
-                                            break;
-                                        }
-                                    }
-
-                                    if (!isValid)
-                                    {
-                                        Console.WriteLine("La partita IVA inserita non esiste nel database! Riprova...");
-                                    }
+                                    isValid = FoundVATNumber != null;
                                 }
 
                             }
@@ -441,6 +341,104 @@ namespace VatNumber
 
 
             } while (option != 5);
+        }
+
+
+
+        static int AskVATCode(string message) {                             
+            do
+            {
+                //                Console.WriteLine("Inserisci il numero Partita IVA");
+                Console.WriteLine(message);
+
+                isValid = int.TryParse(Console.ReadLine(), out VATcode);
+
+                if (!isValid)
+                {
+                    Console.WriteLine("Il valore inserito non e' valido! Riprova...");
+                }
+                else
+                {
+                    FoundVATNumber = SearchVATNumber(VatNumbers, VATcode);
+
+isValid = FoundVATNumber != null;
+                }
+            }
+            while (!isValid);
+            // Inserimento Partita IVA End
+        }
+
+        static void AddExpense(List<object> VatNumbers, object FoundVATNumber, decimal expense)
+        {
+            if (VatNumbers == null)
+            {
+                return;
+            }
+            else if (FoundVATNumber == null)
+            {
+                return;
+            }
+            else if (FoundVATNumber is VatNumberNormal)
+            {
+                ((VatNumberNormal)FoundVATNumber).Expenses.Add(expense);
+            }
+            else
+            {
+                Console.WriteLine("Errore: Non e' possibile addebitare una spesa ad una La partita IVA semplice!");
+            }
+        }
+
+        static void AddBill(List<object> VatNumbers, object FoundVATNumber, decimal bill)
+        {
+            if (VatNumbers == null)
+            {
+                return;
+            }
+            else if (FoundVATNumber ==null)
+            {
+                return;
+            }
+            else if (FoundVATNumber is VatNumberNormal)
+            {
+                ((VatNumberNormal)FoundVATNumber).Bills.Add(bill);
+            }
+            else
+            {
+                ((VatNumberSimple)FoundVATNumber).Bills.Add(bill);
+            }
+            
+        }
+
+        static object SearchVATNumber(List<object> VatNumbers, int VATcode)
+        {
+            object FoundVATNumber = null;
+
+            foreach (object o in VatNumbers)
+            {
+                int code;
+
+                if (o is VatNumberSimple)
+                {
+                    code = ((VatNumberSimple)o).Code;
+                }
+                else
+                {
+                    code = ((VatNumberNormal)o).Code;
+                }
+
+                if (VATcode == code)
+                {
+                    FoundVATNumber = o;
+                    break;
+                }
+            }
+
+            if (FoundVATNumber == null)
+            {
+                Console.WriteLine("La partita IVA inserita non esiste nel database! Riprova...");
+            }
+
+            return FoundVATNumber;
         }
     }
 }
