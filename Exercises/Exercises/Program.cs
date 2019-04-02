@@ -273,19 +273,123 @@ namespace Exercises
             work = AskForString("Work: ");
 
             Console.WriteLine();
+
+            PrintLabelAndValueWithColor("Name: ",    name);
+            PrintLabelAndValueWithColor("Surname: ", surname);
+            PrintLabelAndValueWithColor("Age: ", age.ToString());
+            PrintLabelAndValueWithColor("Work: ", work);
+
+            Console.ReadKey();
+        }
+
+        static void PrintLabelAndValueWithColor(string label, string value)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine($"Name:    {name}");
+            Console.Write(label);
 
-            Console.BackgroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine($"Surname: {surname}");
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.Black;
 
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"Age:     {age}");
+            Console.WriteLine(value);
+        }
 
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"Work:    {work}");
+        static void Exercise_7_0()
+        {
+            for (int i = -4; i < 20; i++)
+            {
+                Console.WriteLine(i);
+            }
+
+            Console.WriteLine();
+
+            for (int i = -4; i < 20; i +=3)
+            {
+                Console.WriteLine(i);
+            }
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_8_0()
+        {
+            int a = 2000000000;
+            int b = 2000000000;
+            int sum = a + b;
+
+            Console.WriteLine(sum);
+            Console.WriteLine();
+
+            long la = 2000000000;
+            long lb = 2000000000;
+            long lsum = la + lb;
+
+            Console.WriteLine(lsum);
+            Console.WriteLine();
+
+            // The following does not compile!!!!
+/*
+            BigInteger ba = new BigInteger(2000000000);
+            BigInteger bb = new BigInteger(2000000000);
+            BigInteger bsum = ba + bb;
+*/
+            Console.ReadKey();
+        }
+
+        static void Exercise_9_1()
+        {
+            PrintMatrix(1, 10);
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_9_2()
+        {
+            PrintMatrix(50, 60);
+
+            Console.ReadKey();
+        }
+
+        static void PrintMatrix(int begin, int end)
+        {
+            int fieldSize = (end * end).ToString().Length + 1;
+            string spacer = new string(' ', fieldSize);
+            string format = "{0," + fieldSize + "}";
+
+            Console.Write(spacer);
+
+            for (int c = begin; c <= end; c++)
+            {
+                Console.Write(format, c);
+            }
+            Console.WriteLine();
+
+            for (int r = begin; r <= end; r++)
+            {
+                Console.Write(format, r);
+
+                for (int c = begin; c <= end; c++)
+                {
+                    Console.Write(format, r * c);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static void Exercise_10_1()
+        {
+
+            int side = ReadInteger("Please type the side length: ");
+
+            for (int r = 1; r <= side; r++)
+            {
+                for (int c = 1; c <= r; c++)
+                {
+                    Console.Write("{0,2}", c);
+                }
+                Console.WriteLine();
+            }
 
             Console.ReadKey();
         }
@@ -301,13 +405,17 @@ namespace Exercises
             //Exercise_5_1();
             //Exercise_5_2();
             //Exercise_6_1();
-            Exercise_6_2();
+            //Exercise_6_2();
+            //Exercise_7_0();
+            //Exercise_8_0();
+            //Exercise_9_1();
+            //Exercise_9_2();
+            Exercise_10_1();
         }
 
         static string AskForString(string message)
         {
             string result;
-            bool validInput;
 
             Console.Write(message);
 
