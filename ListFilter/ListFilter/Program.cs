@@ -58,6 +58,7 @@ namespace ListFilter
             data.Add("2");
             data.Add("21");
             data.Add("anonimo");
+            data.Add("al");
             data.Add("sintattico");
             data.Add("astratto");
 
@@ -77,7 +78,7 @@ namespace ListFilter
 
                 reversed.Add(new string(tmp));
                 */
-                reversed.Add
+                reversed.Add(string.Concat(s.Reverse()));
 
             }
 
