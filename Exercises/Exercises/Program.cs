@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -479,37 +480,200 @@ namespace Exercises
 
         static void Exercise_12_0()
         {
-            int pbase;
-            int pexp;
+            int a;
+            int b;
 
-            pbase = ReadInteger("Please type the base on which compute the power: ");
+            a = ReadInteger("Please type the first  factor of the multiplication: ");
+            b = ReadInteger("Please type the second factor of the multiplication: ");
 
-            do
-            {
-                pexp = ReadInteger("Please the positive exponent: ");
+            int absa = Math.Abs(a);
+            int absb = Math.Abs(b);
 
-                if (pexp < 0)
-                {
-                    Console.WriteLine("The exponent should be positive. Try again...");
-                }
-            }
-            while (pexp < 0);
+            int sa = Math.Sign(a);
+            int sb = Math.Sign(b);
 
-            Console.WriteLine($"The {pbase}^{pexp} = {pow(pbase, pexp)}");
+            int result = (sb != sa) ? -multiply(absa, absb) : multiply(absa, absb);
+
+            Console.WriteLine($"The {a} * {b} = {result}");
 
             Console.ReadKey();
         }
 
         static int multiply(int a, int b)
         {
-            int result = 1;
+            int result = 0;
 
-            for (int i = 1; i <= pexp; i++)
+            for (int i = 1; i <= b; i++)
             {
-                result *= pbase;
+                result += a;
             }
 
             return result;
+        }
+
+        static void Exercise_13_0()
+        {
+            int sum = 0;
+
+            for (int i = 3; i < 1000; i++)
+            {
+                if (i % 3 == 0|| i % 5 == 0)
+                {
+                    sum += i;
+                }
+            }
+
+            Console.WriteLine($"The sum is {sum}");
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_14_1()
+        {
+            const int LIMIT = 1000;
+            int f0 = 0;
+            int f1 = 1;
+            int f2;
+
+            Console.WriteLine(f0);
+            Console.WriteLine(f1);
+
+            do
+            {
+                f2 = f1 + f0;
+                if (f2 < LIMIT)
+                {
+                    Console.WriteLine(f2);
+                }
+                f0 = f1;
+                f1 = f2;
+            }
+            while (f2 < LIMIT);
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_14_2()
+        {
+            const int LIMIT = 1000;
+            BigInteger[] fibonacci = new BigInteger[LIMIT];
+
+            fibonacci[0] = 0;
+            fibonacci[1] = 1;
+
+            int index = 2;
+
+            do
+            {
+                fibonacci[index] = fibonacci[index - 1] + fibonacci[index - 2];
+            }
+            while (++index < LIMIT);
+
+            foreach (BigInteger f in fibonacci)
+                Console.WriteLine(f);
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_14_3()
+        {
+            const int LIMIT = 1000000;
+            int f0 = 0;
+            int f1 = 1;
+            int f2;
+            int sum = f0 + f1;
+
+            Console.WriteLine(f0);
+            Console.WriteLine(f1);
+            
+            do
+            {
+                f2 = f1 + f0;
+                sum += f2;
+                if (sum < LIMIT)
+                {
+                    Console.WriteLine(f2);
+                }
+                f0 = f1;
+                f1 = f2;
+            }
+            while (sum < LIMIT);
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_15_0()
+        {
+            int i = 0;
+
+            start_loop: if ((i >= 10)) goto exit_loop;
+            {
+                Console.WriteLine(i);
+                i++;
+            }
+            goto start_loop;
+            exit_loop:
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_16_0()
+        {
+            int number;
+            do
+            {
+                number = ReadInteger("Please type the number to convert: ");
+
+                if (number < 1)
+                {
+                    Console.WriteLine("The value to convert should be postive (> 0). Try again...");
+                }
+            }
+            while (number < 1);
+
+            PrintBinary(number);
+
+            Console.ReadKey();
+        }
+
+        static void PrintBinary(int n)
+        {
+            bool flag = false;
+            int mask = 1 << 30;
+
+            while (mask != 0)
+            {
+                int bit = n & mask;
+
+                if (bit != 0)
+                {
+                    Console.Write(1);
+                    flag = true;
+                }
+                else
+                {
+                    if (flag)
+                    {
+                        Console.Write(0);
+                    }
+                }
+
+                mask >>= 1;
+            }
+        }
+
+        static void Exercise_17_0()
+        {
+            int number = ReadInteger("Please type the number to convert: ");
+
+            Console.WriteLine($"The abs({number}) = {AbsInt(number)}");
+
+            Console.ReadKey();
+        }
+
+        static int AbsInt(int n)
+        {
+            return (n < 0) ? -n : n;
         }
 
         static void RunAll()
@@ -531,6 +695,14 @@ namespace Exercises
             //Exercise_10_1();
             //Exercise_10_2();
             //Exercise_11_0();
+            //Exercise_12_0();
+            //Exercise_13_0();
+            //Exercise_14_1();
+            //Exercise_14_2();
+            //Exercise_14_3();
+            //Exercise_15_0();
+            //Exercise_16_0();
+            Exercise_17_0();
         }
 
         static string AskForString(string message)
