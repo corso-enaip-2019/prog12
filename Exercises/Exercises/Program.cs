@@ -379,19 +379,137 @@ namespace Exercises
 
         static void Exercise_10_1()
         {
+            int side;
+            do
+            {
+                side = ReadInteger("Please type the side length: ");
 
-            int side = ReadInteger("Please type the side length: ");
+                if (side < 1 || side > 20)
+                {
+                    Console.WriteLine("The value inserted is out of range (1-20). Try again...");
+                }
+            }
+            while (side < 1 || side > 20);
+
+            int fieldSize = side.ToString().Length + 1;
+            string format = "{0," + fieldSize + "}";
 
             for (int r = 1; r <= side; r++)
             {
                 for (int c = 1; c <= r; c++)
                 {
-                    Console.Write("{0,2}", c);
+                    Console.Write(format, c);
                 }
                 Console.WriteLine();
             }
 
             Console.ReadKey();
+        }
+
+        static void Exercise_10_2()
+        {
+            int side;
+            do
+            {
+                side = ReadInteger("Please type the side length: ");
+
+                if (side < 1 || side > 20)
+                {
+                    Console.WriteLine("The value inserted is out of range (1-20). Try again...");
+                }
+            }
+            while (side < 1 || side > 20);
+
+            Console.WriteLine();
+
+            int fieldSize = side.ToString().Length + side.ToString().Length % 2 == 0 ? 3 : 4;
+            int spaceDecrement = fieldSize / 2; 
+            int spaceMax = side * spaceDecrement;
+            string format = "{0," + fieldSize + "}";
+
+            for (int r = 1; r <= side; r++)
+            {
+                spaceMax -= spaceDecrement;
+                Console.Write(new string(' ', spaceMax));
+
+                for (int c = 1; c <= r; c++)
+                {
+                    Console.Write(format, c);
+                }
+                Console.WriteLine();
+            }
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_11_0()
+        {
+            int pbase;
+            int pexp;
+
+            pbase = ReadInteger("Please type the base on which compute the power: ");
+
+            do
+            {
+                pexp = ReadInteger("Please the positive exponent: ");
+
+                if (pexp < 0)
+                {
+                    Console.WriteLine("The exponent should be positive. Try again...");
+                }
+            }
+            while (pexp < 0) ;
+
+            Console.WriteLine($"The {pbase}^{pexp} = {pow(pbase, pexp)}");
+
+            Console.ReadKey();
+        }
+
+        static int pow(int pbase, int pexp)
+        {
+            int result = 1;
+
+            for (int i = 1; i <= pexp; i++)
+            {
+                result *= pbase;
+            }
+
+            return result; 
+        }
+
+        static void Exercise_12_0()
+        {
+            int pbase;
+            int pexp;
+
+            pbase = ReadInteger("Please type the base on which compute the power: ");
+
+            do
+            {
+                pexp = ReadInteger("Please the positive exponent: ");
+
+                if (pexp < 0)
+                {
+                    Console.WriteLine("The exponent should be positive. Try again...");
+                }
+            }
+            while (pexp < 0);
+
+            Console.WriteLine($"The {pbase}^{pexp} = {pow(pbase, pexp)}");
+
+            Console.ReadKey();
+        }
+
+        static int multiply(int a, int b)
+        {
+            int result = 1;
+
+            for (int i = 1; i <= pexp; i++)
+            {
+                result *= pbase;
+            }
+
+            return result;
         }
 
         static void RunAll()
@@ -410,7 +528,9 @@ namespace Exercises
             //Exercise_8_0();
             //Exercise_9_1();
             //Exercise_9_2();
-            Exercise_10_1();
+            //Exercise_10_1();
+            //Exercise_10_2();
+            //Exercise_11_0();
         }
 
         static string AskForString(string message)
