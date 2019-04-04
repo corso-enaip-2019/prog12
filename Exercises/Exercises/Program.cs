@@ -756,7 +756,7 @@ namespace Exercises
 
             do
             {
-                rows = ReadInteger("Please enter the mumner of rows (> 0): ");
+                rows = ReadInteger("Please enter the number of rows (> 0): ");
 
                 if (rows < 1)
                 {
@@ -837,6 +837,94 @@ namespace Exercises
             return string.Concat(s.Reverse()).Equals(s);
         }
 
+        static void Exercise_21_0()
+        {
+            int number = ReadInteger("Please enter the number to calculate the cubic root on: ");
+
+            double cubicRoot = CubicRoot(number);
+
+            Print($"Thec cubic root of {number} is {cubicRoot}");
+
+            Console.ReadKey();
+        }
+
+        static void Print(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        static double CubicRoot(int n)
+        {
+            double eps = 1e-3;
+            double x1;
+            double x2;
+            double xm;
+
+            if (n < 0)
+            {
+                x1 = n;
+                x2 = -n;
+            }
+            else
+            {
+                x1 = -n;
+                x2 = n;
+            }
+
+            do
+            {
+                xm = (x1 + x2) / 2;
+
+                if (xm * xm * xm - n > 0)
+                {
+                    x2 = xm;
+                }
+                else
+                {
+                    x1 = xm;
+                }
+            }
+            while (Math.Abs(xm * xm * xm - n) > eps);
+ 
+            return xm;
+        }
+
+        /*
+        static void Exercise_22_0()
+        {
+            double eps = 1e-3;
+            bool flag = true;
+            double step = 100000.0;
+            double previous;
+            double current = 0.0;
+
+            do
+            {
+                previous = current;
+                current += step;
+
+
+                if (current - previous - step < eps)
+                {
+                    flag = false;
+                    current = previous;
+                    step /= 2;
+                    Print(current.ToString());
+                }
+
+                if (flag)
+                {
+                    step += step;
+                }
+
+            }
+            while (step > eps);
+
+
+
+            Console.ReadKey();
+        }
+        */
         static void RunAll()
         {
             //Exercise_1_1();
@@ -867,7 +955,9 @@ namespace Exercises
             //Exercise_18_1();
             //Exercise_18_2();
             //Exercise_19_0();
-            Exercise_20_0();
+            //Exercise_20_0();
+            //Exercise_21_0();
+ // NOT DONE           Exercise_22_0();
         }
 
         static string AskForString(string message)

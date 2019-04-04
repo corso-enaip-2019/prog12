@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Execises.md" />
-    <None Include="Exercises2.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
