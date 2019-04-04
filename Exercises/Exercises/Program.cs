@@ -676,6 +676,167 @@ namespace Exercises
             return (n < 0) ? -n : n;
         }
 
+        static void Exercise_18_1()
+        {
+            int[] values = new int[10];
+            int min = 0 , max = 0, sum = 0;
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = ReadInteger($"Please enter the value[{i}]: ");
+
+                if (i == 0)
+                {
+                    min = values[i];
+                    max = values[i];
+                }
+
+                if (min > values[i])
+                {
+                    min = values[i];
+                }
+
+                if (max < values[i])
+                {
+                    max = values[i];
+                }
+
+                sum += values[i];
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine($"The min is     {min}");
+            Console.WriteLine($"The max is     {max}");
+            Console.WriteLine($"The average is {(double)sum/values.Length}");
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_18_2()
+        {
+            const int HOW_MANY = 10;
+            int num, min = 0, max = 0, sum = 0;
+
+            for (int i = 0; i < HOW_MANY; i++)
+            {
+                num = ReadInteger($"Please enter the {i}th value: ");
+
+                if (i == 0)
+                {
+                    min = num;
+                    max = num;
+                }
+
+                if (min > num)
+                {
+                    min = num;
+                }
+
+                if (max < num)
+                {
+                    max = num;
+                }
+
+                sum += num;
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine($"The min is     {min}");
+            Console.WriteLine($"The max is     {max}");
+            Console.WriteLine($"The average is {(double)sum / HOW_MANY}");
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_19_0()
+        {
+            int rows;
+
+            do
+            {
+                rows = ReadInteger("Please enter the mumner of rows (> 0): ");
+
+                if (rows < 1)
+                {
+                    Console.WriteLine("The number of rows must be > 0. Please try again...");
+                }
+            }
+            while (rows < 1);
+
+            int[,] triangle = new int[rows, rows];
+
+            triangle[0, 0] = 1;
+            for (int c = 1; c < rows; c++)
+            {
+                triangle[0, c] = 0;
+            }
+
+            for (int r = 1; r < rows; r++)
+            {
+                triangle[r, 0] = 1;
+
+                for (int c = 1; c < rows; c++)
+                {
+                    triangle[r, c] = triangle[r - 1, c - 1] + triangle[r - 1, c];
+                }
+            }
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < rows; c++)
+                {
+                    if (triangle[r, c] != 0)
+                    {
+                        Console.Write("{0, 3} ", triangle[r, c]);
+                    }
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.ReadKey();
+        }
+
+        static void Exercise_20_0()
+        {
+            int counter = 0;
+            int number = 2;
+
+            while (counter < 100)
+            {
+                if (IsPrime(number) && IsPalindrome(number.ToString()))
+                {
+                    Console.WriteLine(number);
+                    counter++;
+                }
+                number++;
+            }
+
+            Console.ReadKey();
+        }
+
+        static bool IsPrime(int n)
+        {
+            int limit = (int) Math.Sqrt(n) + 1;
+
+            for (int i = 2; i <= limit; i++)
+            {
+                if (n != i && n % i == 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        static bool IsPalindrome(string s)
+        {
+            return string.Concat(s.Reverse()).Equals(s);
+        }
+
         static void RunAll()
         {
             //Exercise_1_1();
@@ -702,7 +863,11 @@ namespace Exercises
             //Exercise_14_3();
             //Exercise_15_0();
             //Exercise_16_0();
-            Exercise_17_0();
+            //Exercise_17_0();
+            //Exercise_18_1();
+            //Exercise_18_2();
+            //Exercise_19_0();
+            Exercise_20_0();
         }
 
         static string AskForString(string message)
