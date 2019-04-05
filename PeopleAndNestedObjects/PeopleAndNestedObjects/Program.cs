@@ -10,58 +10,95 @@ namespace PeopleAndNestedObjects
     {
         static void Main(string[] args)
         {
+            List<Person> people = CreatePersonMocks();
+
+            Print(people);
         }
 
-        List<Person> CreatePersonMocks()
+        static List<Person> CreatePersonMocks()
         {
-            Person person;
-            Car car;
-            Address address;
-            List<Person> people = new List<Person>();
-
-            /*            person = new Person()
+            List<Person> people = new List<Person>()
+            {
+                new Person()
+                {
+                    Name = "Dario",
+                    Surname = "Palmisano",
+                    Height = 1.79,
+                    Cars = new List<Car>()
+                    {
+                        new Car()
                         {
-                            Name = "",
-                            Surname = "";
-                        Height = 1.79;
-                    };
-              */
+                            Model = "Fusion",
+                            Brand = "Ford",
+                        },
+                    },
+                    HomeAddress = new Address()
+                    {
+                        Street = "Via Francesco Fiascone",
+                        Number = "45/b",
+                        ZipCode = "34135",
+                        City = "Trieste",
+                    },
+                },
 
-            person = new Person("Dario", "Palmisano", 1.79);
-            car = new Car("Fusion", "Ford");
-            address = new Address("Via Francesco Fiascone", "45/b", "34135", "Trieste");
-            person.Cars.Add(car);
-            person.HomeAddress = address;
+                new Person()
+                {
+                    Name = "Francoise",
+                    Surname = "Misiti",
+                    Height = 1.70,
+                    Cars = new List<Car>()
+                    {
+                    },
+                    HomeAddress = new Address()
+                    {
+                        Street = "Via Salento",
+                        Number = "116",
+                        ZipCode = "74100",
+                        City = "Taranto",
+                    },
+                },
 
-            people.Add(person);
-
-            person = new Person("Francoise", "Misiti", 1.70);
-            //Car car = 
-            address = new Address("Via Salento", "116", "74100", "Taranto");
-            person.HomeAddress = address;
-
-            people.Add(person);
-
-            person = new Person("John", "Doe");
-            address = new Address("Pacific cost avenue", "10505", "USA-3277", "San Francisco");
-            person.HomeAddress = address;
-            car = new Car("Daytona", "Ferrari");
-            person.Cars.Add(car);
-            car = new Car("Corvette", "Chevrolet ");
-            person.Cars.Add(car);
+                new Person()
+                {
+                    Name = "John",
+                    Surname = "Doe",
+                    Cars = new List<Car>()
+                    {
+                        new Car()
+                        {
+                            Model = "Daytona",
+                            Brand = "Ferrari",
+                        },
+                        new Car()
+                        {
+                            Model = "Corvette",
+                            Brand = "Chevrolet",
+                        },
+                    },
+                    HomeAddress = new Address()
+                    {
+                        Street = "Pacific cost avenue",
+                        Number = "10505",
+                        ZipCode = "USA-3277",
+                        City = "San Francisco",
+                    },
+                },
+            };
 
             return people;
         }
 
-        void PrintPeople(List<Person> people)
+        static void Print(List<Person> people)
         {
             foreach (Person person in people)
             {
-                PrintPerson(person);
+                Print(person);
             }
+
+            Console.ReadKey();
         }
 
-        void PrintPerson(Person person)
+        static void Print(Person person)
         {
             Console.WriteLine($"Name:    {person.Name}");
             Console.WriteLine($"Surname: {person.Surname}");
@@ -72,11 +109,17 @@ namespace PeopleAndNestedObjects
             }
 
             Console.WriteLine();
+
+            Print(person.HomeAddress);
+            Print(person.Cars);
+
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
-        void PrintAddress(Address address)
+        static void Print(Address address)
         {
-            Console.WriteLine("\tAddreess");
+            Console.WriteLine("\tAddress");
 
             Console.WriteLine($"\t\t{address.Street}, {address.Number}");
             Console.WriteLine($"\t\t{address.ZipCode}");
@@ -84,18 +127,23 @@ namespace PeopleAndNestedObjects
 
         }
 
-        void PrintCars(List<Car> cars)
+        static void Print(List<Car> cars)
         {
-            Console.WriteLine("Cars");
+            Console.WriteLine("\tCars");
+
+            if (cars.Count == 0)
+            {
+                Console.WriteLine($"\t\tnone");
+            }
 
             foreach (Car car in cars)
             {
-                Console.WriteLine($"\tModel:  {car.Model}");
-                Console.WriteLine($"\tBrand:  {car.Brand}");
+                Console.WriteLine($"\t\tModel:  {car.Model}");
+                Console.WriteLine($"\t\tBrand:  {car.Brand}");
 
                 if (car.Mileage > 0.0)
                 {
-                    Console.WriteLine($"\tMileage: {car.Mileage}");
+                    Console.WriteLine($"\t\tMileage: {car.Mileage}");
                 }
 
                 Console.WriteLine();
@@ -105,12 +153,16 @@ namespace PeopleAndNestedObjects
 
     class Person
     {
-        public string Name { get; }
-        public string Surname { get; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         public double Height { get; set; }
 
         public Address HomeAddress { get; set; }
         public List<Car> Cars { get; set; }
+
+        public Person()
+        {
+        }
 
         public Person(string name, string surname)
         {
@@ -124,7 +176,7 @@ namespace PeopleAndNestedObjects
         public Person(string name, string surname, double height) :
             this(name, surname)
         {
-            Height = height; 
+            Height = height;
         }
 
     }
@@ -135,6 +187,10 @@ namespace PeopleAndNestedObjects
         public string Number { get; set; }
         public string ZipCode { get; set; }
         public string City { get; set; }
+
+        public Address()
+        {
+        }
 
         public Address(string street, string number, string zipCode, string city)
         {
@@ -147,9 +203,12 @@ namespace PeopleAndNestedObjects
 
     class Car
     {
-        public string Model { get; }
-        public string Brand { get; }
+        public string Model { get; set; }
+        public string Brand { get; set; }
         public double Mileage { get; set; }
+
+        public Car()
+        { }
 
         public Car(string model, string brand)
         {
