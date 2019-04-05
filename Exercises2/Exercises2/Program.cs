@@ -12,9 +12,14 @@ namespace Exercises2
         {
             List<Smartphone> smartphones = CreateMock();
 
-            List<Smartphone> smartphonesWithColor = Filter(smartphones, new ColorFilter("Gold"));
+            //List<Smartphone> smartphonesWithColor = Filter(smartphones, new ColorFilter("Gold"));
+            IEnumerable<Smartphone> smartphonesWithColor = Filter(smartphones, s => s.Color.Equals("Gold"));
 
-            List<Smartphone> smartphonesCostLess = Filter(smartphones, new CostLessFilter(300m));
+            //List<Smartphone> smartphonesCostLess = Filter(smartphones, new CostLessFilter(300m));
+            IEnumerable<Smartphone> smartphonesCostLess = Filter(smartphones, s => s.Cost < 300m);
+
+            //IEnumerable<string> smartphonesColors = Project(smartphones, new GetColors());
+            IEnumerable<string> smartphonesColors = Project(smartphones, s => s.Color);
 
             foreach (Smartphone sm in smartphones)
             {
@@ -31,6 +36,10 @@ namespace Exercises2
                 PrintSmartphone(sm);
             }
 
+            foreach (string item in smartphonesColors)
+            {
+                Console.WriteLine(item);
+            }
             Console.ReadKey();
         }
 
@@ -40,20 +49,35 @@ namespace Exercises2
 
             mock.Add(new Smartphone("S71", "2", 200m, "Black"));
             mock.Add(new Smartphone("iPhoneX", "10", 800m, "Gold"));
+            mock.Add(new Smartphone("Nokia", "1.5", 300m, "White"));
 
             return mock;
         }
 
-        static List<T> Filter<T>(List<T> input, IFilter<T> filter)
+//        static IEnumerable<T> Filter<T>(IEnumerable<T> input, IFilter<T> filter)
+        static IEnumerable<T> Filter<T>(IEnumerable<T> input, Filter<T> condition)
         {
             List<T> result = new List<T>();
 
             foreach (T sm in input)
             {
-                if (filter.Filter(sm))
+                if (condition(sm))
                 {
                     result.Add(sm);
                 }
+            }
+
+            return result;
+        }
+
+        //static IEnumerable<Tout> Project<Tin, Tout>(IEnumerable<Tin> input, IProject<Tin,Tout> projection)
+        static IEnumerable<Tout> Project<Tin, Tout>(IEnumerable<Tin> input, Project<Tin, Tout> projection)
+        { 
+            List<Tout> result = new List<Tout>();
+
+            foreach (Tin item in input)
+            {
+                result.Add(projection(item));
             }
 
             return result;
@@ -86,6 +110,19 @@ namespace Exercises2
         bool Filter(T item);
     }
 
+    interface IProject<Tin, Tout>
+    {
+        Tout Project(Tin item);
+    }
+    
+    public class GetColors : IProject<Smartphone, string>
+    {
+        public string Project(Smartphone item)
+        {
+            return item.Color;
+        }
+    }
+
     public class ColorFilter : IFilter<Smartphone>
     {
         string _color;
@@ -114,4 +151,7 @@ namespace Exercises2
             return sm.Cost < _cost;
         }
     }
+
+    delegate bool Filter<T>(T item);
+    delegate Tout Project<Tin, Tout>(Tin item);
 }
