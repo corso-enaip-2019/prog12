@@ -33,19 +33,21 @@ namespace MyFile
         {
             MyFile myFile;
 
-            FileInfo fi = new FileInfo(path);
+            FileInfo fileInfo = new FileInfo(path);
 
-            if (IsDirectory(fi))
+            if (IsDirectory(fileInfo))
             {
+                MyFile myFile;
                 myFile = new Folder(path);
-
+                
                 DirectoryInfo di = new DirectoryInfo(path);
 
                 try
                 {
                     foreach (var fi in di.EnumerateDirectories())
                     {
-                        file.
+                        myFile.
+
                         Console.WriteLine($"{fi.Name} {fi.Length}");
                     }
 
@@ -61,11 +63,11 @@ namespace MyFile
             }
 
 
-            return file;
+            return myFile;
         }
     }
 
-    class MyFile
+    public class MyFile
     {
         string Name { get; set; }
 
@@ -80,14 +82,18 @@ namespace MyFile
         }
     }
 
-    class Folder : MyFile
+    public class Folder : MyFile
     {
         List<MyFile> files;
 
         public Folder(string name) : base(name)
         {
-
         } 
+
+        public void AddFile(MyFile myFile)
+        {
+            files.Add(myFile);
+        }
 
         public override int Size()
         {
