@@ -24,21 +24,45 @@ namespace LinqTests
             new Student() { StudentID = 6, StudentName = "Chris",  Age = 17 },
             new Student() { StudentID = 7, StudentName = "Rob",Age = 19  },
         };
+            IEnumerable<string> names = new List<string>()
+            {
+                "Dario",
+                "Vito",
+                "Antonio",
+                "Carillo",
+                "Vito",
+            };
 
-        IEnumerable<Student> students = new List<Student>();
+            var lessNames = names.Distinct();
 
+
+
+            //IEnumerable<Student> students = new List<Student>();
+
+            //    var studentsGroupedByAge = studentArray.OrderBy(s => s.Age).ToLookup(s => s.Age);
+
+            //    foreach (var ageGroup in studentsGroupedByAge)
+            //    { 
+            //        Console.WriteLine($"Age: {ageGroup.Key}");
+            //        foreach (Student s in ageGroup)
+            //    {
+            //        Console.WriteLine($"    Name:{s.StudentName}");
+            //    }
+            //    }
             //        Func<Student, bool> hasMoreThan19 = s => s.Age > 19;
 
             //   bool = hasMoreThan19(studentArray[0]);
 
             //      students = studentArray.Where(hasMoreThan19);
 
-        students = studentArray.OrderByDescending(s => s.StudentName).ThenByDescending(s =>s.Age);
+            //students = studentArray.OrderByDescending(s => s.StudentName).ThenByDescending(s =>s.Age);
 
-        foreach (Student s in students)
-        {
-            Console.WriteLine(s.StudentName);
-        }
+            var Steve = studentArray.Concat(studentArray);
+
+        //foreach (var s in selectResult)
+        //{
+        //    Console.WriteLine($"Name: {s.Name}, Age Incremented {s.AgeI}");
+        //}
 
             Console.ReadKey();
         }
