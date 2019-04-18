@@ -105,24 +105,20 @@ namespace Linq_exercise_1
 
             Console.WriteLine("Elenco dei nomi di città che hanno solo appartamenti NON in classe A, B, C.");
 
-            IEnumerable<IGrouping<EnergyClassType, Flat>> flatsByEnergyClassOrdered = flats
-                .OrderBy(f => f.EnergyClass)
-                .GroupBy(f => f.EnergyClass);
+            var flatsByEnergyClassOrdered = flats
+                                            .GroupBy(f => f.EnergyClass);
 
-            IEnumerable<string> citiesNotABC = new List<string>();
-            foreach (IGrouping<EnergyClassType, Flat> flat in flatsByEnergyClassOrdered)
+            List<string> citiesNotABC = new List<string>();
+            foreach (var flatG in flatsByEnergyClassOrdered)
             {
-                foreach (Flat f in flat)
-
-                if (flat.Key > EnergyClassType.C)
-                    citiesNotABC = flat
-                        .Where(f => new f.city)
-                        .Union();
+                if (flatG.Key > EnergyClassType.C)
+                    foreach (Flat f in flatG)
+                        citiesNotABC.Add(f.City);
             }
 
-            foreach (string city  in citiesNotABC)
+            foreach (string city  in citiesNotABC.Distinct())
             {
-                Console.WriteLine("Citta': {0}", City);
+                Console.WriteLine("Citta': {0}", city);
 
             }
 
