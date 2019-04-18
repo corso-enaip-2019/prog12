@@ -2,10 +2,12 @@
 
 namespace BankWithAlert
 {
+
     class Program
     {
         static BankAccount ba; 
         static ConsoleUI cu;
+
 
         static void Main(string[] args)
         {
@@ -18,10 +20,14 @@ namespace BankWithAlert
             ba.EntryAdded += AddEntryMessage;
             ba.ExpenseAdded += AddExpenseMessage;
             ba.AccountOnRed += AccountOnRed;
-                
-            while (true)
+
+            do
             {
                 option = cu.Menu();
+
+                if (option == Option.Quit)
+                    break;
+
                 amount = cu.AskAmount();
 
                 if (option == Option.Entry)
@@ -30,22 +36,35 @@ namespace BankWithAlert
                     ba.AddExpense(amount);
                 else throw new ArgumentOutOfRangeException();
             }
+            while (option != Option.Quit);
+
         }
 
-        static void AddEntryMessage()
+        static void AddEntryMessage(object o, EventArgsExt e)
         {
-            cu.Print("Added entry");
+            cu.Print($"Added entry amount: {e.Amount} balance {e.Balance}");
         }
 
-        static void AddExpenseMessage()
+        static void AddExpenseMessage(object o, EventArgsExt e)
         {
-            cu.Print("Added expense");
+            cu.Print($"Added expense amount: {e.Amount} balance {e.Balance}");
         }
 
-        static void AccountOnRed()
+        static void AccountOnRed(object o, EventArgsExt e)
         {
-            cu.Print("Accoun on red");
+            cu.Print($"Accoun on red amount: {e.Amount} balance {e.Balance}");
         }
+    }
+
+    class EventArgsExt : EventArgs
+    {
+        public EventArgsExt(decimal amount, decimal balance)
+        {
+            Amount = amount;
+            Balance = balance;
+        }
+        public decimal Amount { get; set; }
+        public decimal Balance { get; set; }
     }
 
     class BankAccount
@@ -58,18 +77,20 @@ namespace BankWithAlert
         public decimal Deposit { get; private set; }
         
 
-        public delegate void BankActivity();
+        public delegate void BankActivity(object sender, EventArgsExt e);
         public event BankActivity EntryAdded;
         public event BankActivity ExpenseAdded;
         public event BankActivity AccountOnRed;
 
+//        public delegate void EventHandler(object sender, EventArgs e);
+//        public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
 
         public void AddEntry(decimal amount)
         {
             Deposit += amount;
 
             if (EntryAdded != null)
-                EntryAdded.Invoke();
+                EntryAdded.Invoke(this, new EventArgsExt(amount, Deposit));
         }
 
         public void AddExpense(decimal amount)
@@ -81,14 +102,14 @@ namespace BankWithAlert
                 if (balance < 0)
                 {
                     if (AccountOnRed != null)
-                        AccountOnRed.Invoke();
+                        AccountOnRed.Invoke(this, new EventArgsExt(amount, balance));
                 }
                 else
                 {
                     Deposit = balance;
 
                     if (ExpenseAdded != null)
-                        ExpenseAdded.Invoke();
+                        ExpenseAdded.Invoke(this, new EventArgsExt(amount, balance));
                 }
             }
         }
@@ -105,7 +126,7 @@ namespace BankWithAlert
         {
             string input;
             Console.WriteLine("Do you want to add an entry or an expense?" +
-                Environment.NewLine + "Type: n for entry, x for expense");
+                Environment.NewLine + "Type: n for entry, x for expense, q for quit");
 
             do
             {
@@ -113,17 +134,29 @@ namespace BankWithAlert
 
                 Console.WriteLine();
 
-                if (input != "n" && input != "x")
+                if (input != "n" && input != "x" && input != "q")
                     Console.WriteLine("The entered option does not exist. Please try again...");
             }
-            while (input != "n" && input != "x");
+            while (input != "n" && input != "x" && input != "q");
 
-            if (input == "n")
-                return Option.Entry;
-            else if (input == "x")
-                return Option.Expense;
-            else throw new ArgumentOutOfRangeException();
+            switch (input)
+            {
+                case "n":
+                    return Option.Entry;
+                    break;
+                case "x":
+                    return Option.Expense;
+                    break;
+                case "q":
+                    return Option.Quit;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+                    break;
+
+            }
         }
+
 
         public decimal AskAmount()
         {
@@ -145,7 +178,7 @@ namespace BankWithAlert
     }
 
 
-    enum Option { Entry, Expense };
+    enum Option { Entry, Expense, Quit };
 
 
 }
