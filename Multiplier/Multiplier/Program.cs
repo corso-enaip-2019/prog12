@@ -25,6 +25,8 @@ namespace Multiplier
 
         static dMultiplier CreateMultiplier(int multiplierFactor)
         {
+
+          //return delegate(int s) { return s * multiplierFactor; };
             return s => s * multiplierFactor;
         }
     }
