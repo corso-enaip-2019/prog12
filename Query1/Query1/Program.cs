@@ -6,9 +6,27 @@ namespace Query1
 {
     class Program
     {
+        //static List<string> l = new List<string>
+        //    {
+        //        "Dario",
+        //        "Antonio",
+        //        "Gerardo",
+        //        "Ciccio",
+        //        "Giorgio",
+        //        "Felice",
+        //        "Henry",
+        //        "John",
+        //    };
+
         static void Main(string[] args)
         {
-            List<Person> list = CreateMockUps();
+
+
+            //foreach(string  in l)
+            //{
+            //    Console.
+            //}
+            List <Person> list = CreateMockUps();
 
             Console.WriteLine("All the Person with pets living in 'London'");
 
