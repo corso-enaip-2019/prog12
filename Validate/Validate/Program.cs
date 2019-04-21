@@ -1,20 +1,33 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 
-namespace ValidateWithTemplate
+namespace Validate
 {
     class Program
     {
         static void Main(string[] args)
         {
-            PersonValidator pv = new PersonValidator();
-            AddressValidator av = new AddressValidator();
+            IValidator iv = new IdValid();
+            IValidator nv = new NameNotEmpty();
+            IValidator bv = new BirthInRange();
+            IValidator av = new AddressValidator();
+
+            ValidatorFactory vf = new ValidatorFactory();
+
+            List<IValidator> lv = vf.CreateValidator(new List<string> { "IdValid", "NameNotEmpty" });
+
+            iv = lv[0];
+
             List<Person> people = CreatePeopleMockUp();
 
             foreach (Person p in people)
             {
-                List<string> diags = pv.Validate(p);
+                List<string> diags = iv.Validate(p);
+                diags.AddRange(nv.Validate(p));
+                diags.AddRange(bv.Validate(p));
                 diags.AddRange(av.Validate(p));
+
                 if (diags.Count > 0)
                 {
                     Console.WriteLine(p.Name);
@@ -75,90 +88,176 @@ namespace ValidateWithTemplate
         public int ZIP { get; set; }
     }
 
-    abstract class BasePersonValidator
-    {
-        public List<string> Validate(Person person)
-        {
-            string value;
-            List<string> result = new List<string>();
-
-            value = IdValid(person.Id);
-            if (value != null) result.Add(value);
-
-            value = NameNotEmpty(person.Name);
-            if (value != null) result.Add(value);
-
-            value = BirthInRange(person.Birth);
-            if (value != null) result.Add(value);
-
-            return result;
-        }
-
-        public abstract string IdValid(int id);
-
-        public abstract string NameNotEmpty(string name);
-
-        public abstract string BirthInRange(DateTime birth);
-    }
-
-    class PersonValidator : BasePersonValidator
-    {
-        public override string IdValid(int id)
-        {
-            return (id < 0) ? "l'`Id` non può essere negativo" : null;
-        }
-
-        public override string NameNotEmpty(string name)
-        {
-            return (string.IsNullOrWhiteSpace(name)) ? "il `Name` non può essere null o stringa blank" : null;
-        }
-
-        public override string BirthInRange(DateTime birth)
-        {
-            return (birth.Year < 1900 || birth.Year > 2017) ? "la data di nascita non può essere fuori dal range 1900 - 2017" : null;
-        }
-    }
-
-    interface IAddressValidator
+    interface IValidator
     {
         List<string> Validate(Person person);
     }
 
-    class AddressValidator : IAddressValidator
+    class IdValid : IValidator
     {
         public List<string> Validate(Person person)
         {
-            string value;
             List<string> result = new List<string>();
 
-            value = AddressNotNull(person.Address);
-            if (value != null) result.Add(value);
-            else
-            { 
-                value = StreetNotEmpty(person.Address.Street);
-                if (value != null) result.Add(value);
+            if (person.Id < 0)
+                result.Add("l'`Id` non può essere negativo");
 
-                value = ZipValid(person.Address.ZIP);
-                if (value != null) result.Add(value);
+            return result;
+        }
+    }
+
+    class NameNotEmpty : IValidator
+    {
+        public List<string> Validate(Person person)
+        {
+            List<string> result = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(person.Name))
+                result.Add("il `Name` non può essere null o stringa blank");
+
+            return result;
+        }
+    }
+
+    class BirthInRange : IValidator 
+    {
+        public List<string> Validate(Person person)
+        {
+            List<string> result = new List<string>();
+
+            if (person.Birth.Year < 1900 || person.Birth.Year> 2017)
+                result.Add("la data di nascita non può essere fuori dal range 1900 - 2017");
+
+            return result;
+        }
+    }
+
+    class AddressValidator : IValidator
+    {
+        public List<string> Validate(Person person)
+        {
+            List<string> result = new List<string>();
+
+            result.AddRange(AddressNotNull(person));
+            result.AddRange(StreetNotEmpty(person));
+            result.AddRange(ZipValid(person));
+
+            return result;
+        }
+
+        List<string> AddressNotNull(Person person)
+        {
+            List<string> result = new List<string>();
+
+            if (person.Address == null)
+            {
+                result.Add("l'intero oggetto `Address` non può essere null sulla `Person`");
             }
 
             return result;
         }
+
+        List<string> StreetNotEmpty(Person person)
+        {
+            List<string> result = new List<string>();
+
+            if (person.Address != null && string.IsNullOrWhiteSpace(person.Address.Street))
+            {
+                result.Add("la strada non può essere stringa blank");
+            }
+            
+            return result;
+        }
+
+        List<string> ZipValid(Person person)
+        {
+            List<string> result = new List<string>();
+
+            if (person.Address != null && person.Address.ZIP.ToString().Length != 5)
+            {
+                result.Add("il numero deve avere 5 cifre");
+            }
+
+            return result;
+        }
+
+    }
+
+    class ValidatorFactory
+    {
+        public List<IValidator> CreateValidator(List<string> validatorNames)
+        {
+            string ns = System.Reflection.Assembly.GetExecutingAssembly().EntryPoint.DeclaringType.Namespace;
+            List<IValidator> result = new List<IValidator>();
+
+            foreach (string validatorName in validatorNames)
+            {
+
+                Type type = Type.GetType($"{ns}.{validatorName}");
+
+                if (type == null)
+                    throw new ArgumentException();
+              
+                result.Add((IValidator) Activator.CreateInstance(type));
+            }
+            return result;
+        }
+    }
+
+    class Database
+    {
+        DB db = DB.Instance;
+
+        List<IValidator> _validators;
+
+        private Database(List<IValidator> validators)
+        {
+            _validators = validators;    
+        }
+
+        public List<string> Save(Person person)
+        {
+            List<string> diags = new List<string>();
+
+            foreach (IValidator validator in _validators)
+            {
+                diags.AddRange(validator.Validate(person));
+            }
+
+            if (diags.Count == 0)
+            {
+                db.Put(person);
+            }
+
+            return diags;
+        }
+
+    }
+
+    sealed class DB
+    {
+        Dictionary<int, Person> _db;
+
+        public static DB Instance { get; }
+
+        static DB()
+        {
+            Instance = new DB();
+        }
+
+        private DB ()
+        {
+            _db = new Dictionary<int, Person>();
+        }
         
-
-        string AddressNotNull(Address address)
+        public Person Get(int id)
         {
-            return (address == null) ? "l'intero oggetto `Address` non può essere null sulla `Person`" : null;
+            return _db[id];
         }
 
-        string StreetNotEmpty(string street)
+        public void Put(Person person)
         {
-            return (string.IsNullOrWhiteSpace(street)) ? "la strada non può essere stringa blank" : null;
-        }
-
-        string ZipValid(int zip)
-        {
-            return (zip.ToString().Length != 5) ? "il numero deve avere 5 cifre" : null;
+            _db.Add(person.Id, person);
         }
     }
 
